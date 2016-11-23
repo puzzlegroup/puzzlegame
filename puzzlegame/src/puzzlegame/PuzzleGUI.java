@@ -87,7 +87,7 @@ public class PuzzleGUI extends JFrame {
     private void showCredits() {
 
         creditsBack = new JButton("Back");
-        creditsBack.setBounds(100, 100, 50, 50);
+        
         creditOptions.add(creditsBack);
 
         getContentPane().removeAll();
