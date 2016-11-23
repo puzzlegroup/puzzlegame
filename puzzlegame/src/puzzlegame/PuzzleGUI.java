@@ -99,7 +99,7 @@ public class PuzzleGUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 
                 // remove components
-                creditOptions.remove(creditsBack);
+                creditOptions.removeAll();
         
                 // call showIntro
                 showIntro();
