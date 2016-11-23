@@ -5,112 +5,204 @@
  * Written by John Celona, Vivian Murga, Brittney Pope, Michael McKenzie, Nick Buehre,
  * John Mask, and Ryan Hutchinson, November 2016
  */
+
+// Import package
 package puzzlegame;
 
-import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+// Import classes
+import java.awt.*;
 import javax.swing.*;
 
-/**
- *
- * @author author
- */
+// GUI for Team Vulcan's Logic Quest game
 public class PuzzleGUI extends JFrame {
 
-    // Declare GUI variables
-    private JButton play; // main screen play button
-    private JButton howToPlay; // main screen how to play button
-    private JButton credits; // main screen credits button
-    private JButton creditsBack; // credits screen button
+	// Declare GUI variables
+	private JButton intro;
+	private JButton play;
+	private JButton tutorial;
+	private JButton credits;
+	
+	// Declare screen panels
+	private JPanel introPanel = new JPanel();
+	private JPanel mapPanel = new JPanel();
+	private JPanel tutorialPanel = new JPanel();
+	private JPanel creditsPanel = new JPanel();
+	private JPanel[] areaPanels;
+	
+	// Declare utility variables
+	private String[] areas;
+	private String[] puzzleNames;
+	
+	
+	
+	// Main program
+	public static void main(String[] args) {
+		
+		// Create GUI
+		PuzzleGUI GUI = new PuzzleGUI();
+	}
+	
+	// GUI constructor
+	public PuzzleGUI() {
+		
+		// Declare and initialize frame variables
+		int frameWidth = 800;
+		int frameHeight = 600;
+		int buttonWidth = 120;
+		int buttonHeight = 35;
+		int buttonXOffset = (frameWidth / 2) - (buttonWidth / 2);
+		int buttonYOffset = 350;
+		int buttonSeperation = 10;
+		int borderWidth = 8;
+		Font font = new Font(null, Font.BOLD, 16);
+		
+		// Declare and initialize titles
+		String mainTitle = "Logic Quest";
+		String introTitle = "Back";
+		String playTitle = "Play";
+		String tutorialTitle = "Tutorial";
+		String creditsTitle = "Credits";
+		
+		
+		
+		// Customize GUI elements
+		Dimension buttonSize = new Dimension(buttonWidth, buttonHeight);
+		SpringLayout layout = new SpringLayout();
+		introPanel.setLayout(layout);
+		
+		// Set frame properties
+		setTitle(mainTitle);
+		setSize(frameWidth, frameHeight);
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		
+		
+		
+		
+		
+		
+		/**
+		 *  INTRO SCREEN
+		 */
+		
+		// Create play button
+		play = new JButton(playTitle);
+		play.setFont(font);
+		play.setPreferredSize(buttonSize);
+		play.addActionListener(event -> showMap(introPanel));
+		introPanel.add(play);
+		
+		// Create tutorial button
+		tutorial = new JButton(tutorialTitle);
+		tutorial.setFont(font);
+		tutorial.setPreferredSize(buttonSize);
+		tutorial.addActionListener(event -> showTutorial(introPanel));
+		introPanel.add(tutorial);
+		
+		// Create credits button
+		credits = new JButton(creditsTitle);
+		credits.setFont(font);
+		credits.setPreferredSize(buttonSize);
+		credits.addActionListener(event -> showCredits(introPanel));
+		introPanel.add(credits);
+		
+		// Add background image
+		//JLabel background = new JLabel(new ImageIcon("images/space_1.jpg"));
+		//introPanel.add(background);
+		//introPanel.setComponentZOrder(background, 3);
+		
+		
+		// Declare and initialize layout variables
+		String top = SpringLayout.NORTH;
+		String bottom = SpringLayout.SOUTH;
+		String left = SpringLayout.WEST;
+		String right = SpringLayout.EAST;
+		
+		// Constrain play button
+		layout.putConstraint(left, play, buttonXOffset, left, introPanel);
+		layout.putConstraint(top, play, buttonYOffset, top, introPanel);
+		
+		// Constrain tutorial button
+		layout.putConstraint(left, tutorial, 0, left, play);
+		layout.putConstraint(top, tutorial, buttonSeperation, bottom, play);
+		
+		// Constrain credits button
+		layout.putConstraint(left, credits, 0, left, play);
+		layout.putConstraint(top, credits, buttonSeperation, bottom, tutorial);
+		
+		
+		
+		
+		/**
+		 *  TUTORIAL SCREEN
+		 */
+		
+		
+		
+		
+		/**
+		 *  CREDITS SCREEN
+		 */
+		
+		
+		
+		
+		/**
+		 *  MAP SCREEN
+		 */
+		
+		
+		
+		
+		
+		
+		// Add panel to frame
+		add(introPanel);
+		setVisible(true);
+		
+	}
 
-    private JPanel introOptions = new JPanel(); // holds main screen components
-    private JPanel creditOptions = new JPanel(); // holds credits screen components 
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-
-        PuzzleGUI gui = new PuzzleGUI();
-        
-        gui.showIntro(); // call showIntro
-        
-    } // end main
-
-    public PuzzleGUI() {
-
-        // set frame properties
-        setSize(800, 600);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new BorderLayout());
-
-        // set title
-        setTitle("LogicQuest");
-
-    }
-
-    /**
-     * showIntro()
-     */
-    private void showIntro() {
-
-        // declare and initialize frame variables
-        play = new JButton("Play");
-        howToPlay = new JButton("How To Play");
-        credits = new JButton("Credits");
-        introOptions = new JPanel();
-
-        // add buttons to panel
-        introOptions.add(play);
-        introOptions.add(howToPlay);
-        introOptions.add(credits);
-
-        // button action listeners
-        credits.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                
-                showCredits(); // call showCredits
-            }
-        });
-
-        // add panel to frame
-        add(introOptions, BorderLayout.SOUTH);
-
-        setVisible(true); // show frame
-
-    }
-
-    /**
-     * showCredits()
-     */
-    private void showCredits() {
-
-        creditsBack = new JButton("Back");
-        
-        creditOptions.add(creditsBack);
-
-        getContentPane().removeAll();
-        getContentPane().repaint();
-        
-
-        // button action listeners
-        creditsBack.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                
-                // remove components
-                creditOptions.removeAll();
-        
-                // call showIntro
-                showIntro();
-            }
-        });
-
-        // add panel to frame
-        add(creditOptions, BorderLayout.SOUTH);
-
-        setVisible(true); // show frame
-
-    }
-
+	// Method for showing introduction screen
+	private void showIntro(JPanel currentPanel) {
+		
+	}
+	
+	// Method for showing map screen
+	private void showMap(JPanel currentPanel) {
+		
+		// Replace the current panel
+		remove(currentPanel);
+		add(mapPanel);
+		validate();
+	}
+	
+	// Method for showing area screen
+	private void showArea(String area) {
+		
+	}
+	
+	// Method for showing puzzle screen
+	private void showPuzzle(String puzzleName) {
+		
+	}
+	
+	// Method for showing game tutorial
+	private void showTutorial(JPanel currentPanel) {
+		
+		// Replace the current panel
+		remove(currentPanel);
+		add(tutorialPanel);
+		validate();
+	}
+	
+	// Method for showing game credits
+	private void showCredits(JPanel currentPanel) {
+		
+		// Replace the current panel
+		remove(currentPanel);
+		add(creditsPanel);
+		validate();
+	}
+	
 }
