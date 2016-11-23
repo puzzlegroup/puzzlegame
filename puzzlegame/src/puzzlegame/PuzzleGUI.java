@@ -70,7 +70,7 @@ public class PuzzleGUI extends JFrame {
         credits.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 
-                showCredits(); // call shoeCredits
+                showCredits(); // call showCredits
             }
         });
 
