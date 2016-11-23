@@ -17,6 +17,7 @@ import javax.swing.border.*;
 public class Puzzle {
 
 	// Declare puzzle variables
+	private String dialog;
 	private String[] clues;
 	private String[] hints;
 	private String[] topLabels;
