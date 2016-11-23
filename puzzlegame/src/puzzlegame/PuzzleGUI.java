@@ -22,7 +22,6 @@ public class PuzzleGUI {
         
         // TODO 
         
-        // TODO
     }
     
 }
