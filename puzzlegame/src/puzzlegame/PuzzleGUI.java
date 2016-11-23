@@ -20,7 +20,7 @@ public class PuzzleGUI {
         
         // TODO code application logic here
         
-        //
+        // TODO 
     }
     
 }
