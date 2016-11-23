@@ -1,16 +1,6 @@
-/* Copyright (C) John Celona, Vivian Murga, Brittney Pope, Michael McKenzie, Nick Buehre,
- * John Mask, and Ryan Hutchinson - All Rights Reserved
- * Unauthorized copying of this file, via any medium is strictly prohibited
- * Proprietary and confidential
- * Written by John Celona, Vivian Murga, Brittney Pope, Michael McKenzie, Nick Buehre,
- * John Mask, and Ryan Hutchinson, November 2016
- */
-package puzzlegame;
-
-/**
+/* This file can be removed. The professor said:
  *
- * @author author
+ * "I am not really convinced that there is any use for the AbstractPuzzle class in this project. 
+ * Just because various authors suggest using abstract classes in some situations does not mean
+ * such classes make sense in ALL situations"
  */
-public class AbstractPuzzle {
-    
-}
