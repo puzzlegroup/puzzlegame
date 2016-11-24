@@ -22,6 +22,8 @@ public class PuzzleGUI extends JFrame {
 	private JButton tutorial;
 	private JButton credits;
         private JButton creditsBack;
+        private JButton mapsBack;
+        private JButton[] mapAreas;
 	private JTextArea goal;
 	private JTextArea howTo;
 	
@@ -91,6 +93,7 @@ public class PuzzleGUI extends JFrame {
 		introPanel.setLayout(layout);
 		tutorialPanel.setLayout(layout);
 		creditsPanel.setLayout(layout); // set layout for the ability to put constraints in that panel
+		mapPanel.setLayout(layout); // set layout for the ability to put constraints in that panel
 		
 		// Set frame properties
 		setTitle(mainTitle);
@@ -188,7 +191,7 @@ public class PuzzleGUI extends JFrame {
 		/**
 		 *  CREDITS SCREEN
 		 */
-		// Create play button
+		// Create creditsBack button
 		creditsBack = new JButton(introTitle);
 		creditsBack.setFont(font);
 		creditsBack.setPreferredSize(buttonSize);
@@ -197,17 +200,24 @@ public class PuzzleGUI extends JFrame {
 		
                 
                 // Constraint creditsBack button
-		layout.putConstraint(left, creditsBack, buttonXOffset, left, creditsPanel);
-		layout.putConstraint(top, creditsBack, buttonYOffset + 90, top, creditsPanel);
+		layout.putConstraint(left, creditsBack, buttonSeperation, left, creditsPanel);
+		layout.putConstraint(top, creditsBack, buttonSeperation, top, creditsPanel);
 		
 		
 		/**
 		 *  MAP SCREEN
 		 */
+                // create mapsBack button
+                mapsBack = new JButton(introTitle);
+		mapsBack.setFont(font);
+		mapsBack.setPreferredSize(buttonSize);
+		mapsBack.addActionListener(event -> showIntro(mapPanel));
+		mapPanel.add(mapsBack);
 		
-		
-		
-		
+		// Constraint mapsBack button
+                layout.putConstraint(left, mapsBack, buttonSeperation, left, mapPanel);
+		layout.putConstraint(top, mapsBack, buttonSeperation, top, mapPanel);
+
 		
 		
 		// Add panel to frame
@@ -239,6 +249,7 @@ public class PuzzleGUI extends JFrame {
 	// Method for showing area screen
 	private void showArea(String area) {
 		
+            System.out.println(area);
 	}
 	
 	// Method for showing puzzle screen
