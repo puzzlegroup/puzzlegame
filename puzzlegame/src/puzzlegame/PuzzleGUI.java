@@ -249,7 +249,7 @@ public class PuzzleGUI extends JFrame {
 	// Method for showing area screen
 	private void showArea(String area) {
 		
-            System.out.println(area);
+            
 	}
 	
 	// Method for showing puzzle screen
