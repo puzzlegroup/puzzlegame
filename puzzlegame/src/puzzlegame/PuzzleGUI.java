@@ -21,6 +21,8 @@ public class PuzzleGUI extends JFrame {
 	private JButton play;
 	private JButton tutorial;
 	private JButton credits;
+	private JTextArea goal;
+	private JTextArea howTo;
 	
 	// Declare screen panels
 	private JPanel introPanel = new JPanel();
@@ -45,6 +47,10 @@ public class PuzzleGUI extends JFrame {
 	// GUI constructor
 	public PuzzleGUI() {
 		
+		/**
+		 *  SETUP
+		 */
+		
 		// Declare and initialize frame variables
 		int frameWidth = 800;
 		int frameHeight = 600;
@@ -53,7 +59,8 @@ public class PuzzleGUI extends JFrame {
 		int buttonXOffset = (frameWidth / 2) - (buttonWidth / 2);
 		int buttonYOffset = 350;
 		int buttonSeperation = 10;
-		int borderWidth = 8;
+		int textRows = 5;
+		int textColumns = 20;
 		Font font = new Font(null, Font.BOLD, 16);
 		
 		// Declare and initialize titles
@@ -62,23 +69,32 @@ public class PuzzleGUI extends JFrame {
 		String playTitle = "Play";
 		String tutorialTitle = "Tutorial";
 		String creditsTitle = "Credits";
+		String goalTitle = "Goal\n\nThe goal is to complete each puzzle\n...time\n...stars";
+		String howToTitle = "How to play\n\nStep-by-step mini puzzle goes here";
 		
+		// Declare and initialize layout variables
+		String top = SpringLayout.NORTH;
+		String bottom = SpringLayout.SOUTH;
+		String left = SpringLayout.WEST;
+		String right = SpringLayout.EAST;
 		
+		// Declare and initialize image backgrounds
+		String introImage = "images/space_1.jpg";
+		String tutorialImage = "images/space_2.jpg";
+		JLabel introBackground = new JLabel(new ImageIcon(introImage));
+		JLabel tutorialBackground = new JLabel(new ImageIcon(tutorialImage));
 		
 		// Customize GUI elements
 		Dimension buttonSize = new Dimension(buttonWidth, buttonHeight);
 		SpringLayout layout = new SpringLayout();
 		introPanel.setLayout(layout);
+		tutorialPanel.setLayout(layout);
 		
 		// Set frame properties
 		setTitle(mainTitle);
 		setSize(frameWidth, frameHeight);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		
-		
-		
 		
 		
 		
@@ -108,16 +124,8 @@ public class PuzzleGUI extends JFrame {
 		introPanel.add(credits);
 		
 		// Add background image
-		//JLabel background = new JLabel(new ImageIcon("images/space_1.jpg"));
-		//introPanel.add(background);
-		//introPanel.setComponentZOrder(background, 3);
-		
-		
-		// Declare and initialize layout variables
-		String top = SpringLayout.NORTH;
-		String bottom = SpringLayout.SOUTH;
-		String left = SpringLayout.WEST;
-		String right = SpringLayout.EAST;
+		introPanel.add(introBackground);
+		introPanel.setComponentZOrder(introBackground, introPanel.getComponentCount() - 1);
 		
 		// Constrain play button
 		layout.putConstraint(left, play, buttonXOffset, left, introPanel);
@@ -137,57 +145,42 @@ public class PuzzleGUI extends JFrame {
 		/**
 		 *  TUTORIAL SCREEN
 		 */
-		
-		//scrollPane = new JScrollPane(tutorialPanel); I'm not sure if this is right.
 				
-		//Create back button
-		back = new JButton(introTitle);
-		back.setFont(font);
-		back.setPreferredSize(buttonSize);
-		back.addActionListener(event -> showIntro(introPanel));
-		tutorialPanel.add(back);
+		// Create back button
+		intro = new JButton(introTitle);
+		intro.setFont(font);
+		intro.setPreferredSize(buttonSize);
+		intro.addActionListener(event -> showIntro(tutorialPanel));
+		tutorialPanel.add(intro);
 		
-		//Create Goal Label and TextBox
-		goal = new JLabel("Goal");
-		goalTxt = new JTextBox ("The goal is to complete each puzzle...time...stars...");
-		goalTxt.setEditable(false);
+		// Create goal text area
+		goal = new JTextArea(goalTitle, textRows, textColumns);
+		goal.setEditable(false);
 		goal.setFont(font);
-		goalTxt.setFont(font);
 		tutorialPanel.add(goal);
-		tutorialPanel.add(goalTxt);
 		
-		//Create HowTo Label and TextBox
-		howTo = new JLabel("How to Play");
-		howToTxt = new JTextBox ("Step-by-step mini puzzle"); //Not sure if we should use the labels and textBoxes
-		howToTxt.setEditable(false);
+		// Create how-to text area
+		howTo = new JTextArea(howToTitle, textRows, textColumns);
+		howTo.setEditable(false);
 		howTo.setFont(font);
-		howToTxt.setFont(font);
 		tutorialPanel.add(howTo);
-		tutorialPanel.add(howToTxt);
 		
-		//Add background image
-		//tutorialPanel.add(background);
-		//introPanel.setComponentZOrder(background, 3);
+		// Add background image
+		tutorialPanel.add(tutorialBackground);
+		tutorialPanel.setComponentZOrder(tutorialBackground, tutorialPanel.getComponentCount() - 1);
 		
-		//Constrain back button
-		layout.putConstraint(left, back, buttonXOffset, left, tutorialPanel);
-		layout.putConstraint(top, back, buttonXOffset, left, tutorialPanel);
+		// Constrain back button
+		layout.putConstraint(left, intro, buttonSeperation, left, tutorialPanel);
+		layout.putConstraint(top, intro, buttonSeperation, top, tutorialPanel);
 		
-		//Constrain goal Label
-		layout.putConstraint(left, goal, 0, left, back);
-		layout.putConstraint(top, goal, 0, left, back);
+		// Constrain goal text
+		layout.putConstraint(left, goal, buttonWidth, left, tutorialPanel);
+		layout.putConstraint(top, goal, buttonWidth, bottom, intro);
+				
+		// Constrain how-to text area
+		layout.putConstraint(left, howTo, buttonSeperation, right, goal);
+		layout.putConstraint(top, howTo, 0, top, goal);
 		
-		//Constrain goal TextBox
-		layout.putConstraint(left, goalTxt, 0, left, back);
-		layout.putConstraint(top, goalTxt, 0, left, back);
-		
-		//Constrain HowTo Label
-		layout.putConstraint(left, howTo, 0, left, back);
-		layout.putConstraint(top, howTo, 0, left, back);
-		
-		//Constrain HowTo TextBox
-		layout.putConstraint(left, howToTxt, 0, left, back);
-		layout.putConstraint(top, howToTxt, 0, left, back);
 		
 		
 		/**
@@ -219,6 +212,7 @@ public class PuzzleGUI extends JFrame {
 		remove(currentPanel);
 		add(introPanel);
 		validate();
+		repaint();
 	}
 	
 	// Method for showing map screen
@@ -228,6 +222,7 @@ public class PuzzleGUI extends JFrame {
 		remove(currentPanel);
 		add(mapPanel);
 		validate();
+		repaint();
 	}
 	
 	// Method for showing area screen
@@ -247,6 +242,7 @@ public class PuzzleGUI extends JFrame {
 		remove(currentPanel);
 		add(tutorialPanel);
 		validate();
+		repaint();
 	}
 	
 	// Method for showing game credits
@@ -256,6 +252,7 @@ public class PuzzleGUI extends JFrame {
 		remove(currentPanel);
 		add(creditsPanel);
 		validate();
+		repaint();
 	}
 	
 }
