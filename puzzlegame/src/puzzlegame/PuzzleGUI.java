@@ -21,6 +21,7 @@ public class PuzzleGUI extends JFrame {
 	private JButton play;
 	private JButton tutorial;
 	private JButton credits;
+        private JButton creditsBack;
 	private JTextArea goal;
 	private JTextArea howTo;
 	
@@ -89,6 +90,7 @@ public class PuzzleGUI extends JFrame {
 		SpringLayout layout = new SpringLayout();
 		introPanel.setLayout(layout);
 		tutorialPanel.setLayout(layout);
+		creditsPanel.setLayout(layout); // set layout for the ability to put constraints in that panel
 		
 		// Set frame properties
 		setTitle(mainTitle);
@@ -186,8 +188,17 @@ public class PuzzleGUI extends JFrame {
 		/**
 		 *  CREDITS SCREEN
 		 */
+		// Create play button
+		creditsBack = new JButton(introTitle);
+		creditsBack.setFont(font);
+		creditsBack.setPreferredSize(buttonSize);
+		creditsBack.addActionListener(event -> showIntro(creditsPanel));
+		creditsPanel.add(creditsBack);
 		
-		
+                
+                // Constraint creditsBack button
+		layout.putConstraint(left, creditsBack, buttonXOffset, left, creditsPanel);
+		layout.putConstraint(top, creditsBack, buttonYOffset + 90, top, creditsPanel);
 		
 		
 		/**
