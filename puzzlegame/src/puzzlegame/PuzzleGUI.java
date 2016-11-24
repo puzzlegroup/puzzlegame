@@ -138,7 +138,56 @@ public class PuzzleGUI extends JFrame {
 		 *  TUTORIAL SCREEN
 		 */
 		
+		//scrollPane = new JScrollPane(tutorialPanel); I'm not sure if this is right.
+				
+		//Create back button
+		back = new JButton(introTitle);
+		back.setFont(font);
+		back.setPreferredSize(buttonSize);
+		back.addActionListener(event -> showIntro(introPanel));
+		tutorialPanel.add(back);
 		
+		//Create Goal Label and TextBox
+		goal = new JLabel("Goal");
+		goalTxt = new JTextBox ("The goal is to complete each puzzle...time...stars...");
+		goalTxt.setEditable(false);
+		goal.setFont(font);
+		goalTxt.setFont(font);
+		tutorialPanel.add(goal);
+		tutorialPanel.add(goalTxt);
+		
+		//Create HowTo Label and TextBox
+		howTo = new JLabel("How to Play");
+		howToTxt = new JTextBox ("Step-by-step mini puzzle"); //Not sure if we should use the labels and textBoxes
+		howToTxt.setEditable(false);
+		howTo.setFont(font);
+		howToTxt.setFont(font);
+		tutorialPanel.add(howTo);
+		tutorialPanel.add(howToTxt);
+		
+		//Add background image
+		//tutorialPanel.add(background);
+		//introPanel.setComponentZOrder(background, 3);
+		
+		//Constrain back button
+		layout.putConstraint(left, back, buttonXOffset, left, tutorialPanel);
+		layout.putConstraint(top, back, buttonXOffset, left, tutorialPanel);
+		
+		//Constrain goal Label
+		layout.putConstraint(left, goal, 0, left, back);
+		layout.putConstraint(top, goal, 0, left, back);
+		
+		//Constrain goal TextBox
+		layout.putConstraint(left, goalTxt, 0, left, back);
+		layout.putConstraint(top, goalTxt, 0, left, back);
+		
+		//Constrain HowTo Label
+		layout.putConstraint(left, howTo, 0, left, back);
+		layout.putConstraint(top, howTo, 0, left, back);
+		
+		//Constrain HowTo TextBox
+		layout.putConstraint(left, howToTxt, 0, left, back);
+		layout.putConstraint(top, howToTxt, 0, left, back);
 		
 		
 		/**
@@ -166,6 +215,10 @@ public class PuzzleGUI extends JFrame {
 	// Method for showing introduction screen
 	private void showIntro(JPanel currentPanel) {
 		
+		// Replace the current panel
+		remove(currentPanel);
+		add(introPanel);
+		validate();
 	}
 	
 	// Method for showing map screen
