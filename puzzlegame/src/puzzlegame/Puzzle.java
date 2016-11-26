@@ -17,7 +17,7 @@ import javax.swing.border.*;
 public class Puzzle {
 
 	// Declare puzzle variables
-	private String dialog;
+	private String name = "*Level Screen*";
 	private String[] clues;
 	private String[] hints;
 	private String[] topLabels;
@@ -52,7 +52,7 @@ public class Puzzle {
 	// Method for reading in puzzle data
 	public void readData(String fileName) {
 		
-		
+		panel.add(new JLabel(name)); // TEMPORARY
 		
 	}
 
