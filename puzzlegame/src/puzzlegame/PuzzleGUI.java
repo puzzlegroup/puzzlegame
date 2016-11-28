@@ -92,8 +92,8 @@ public class PuzzleGUI extends JFrame {
 		String right = SpringLayout.EAST;
 
 		// Declare and initialize image backgrounds
-		String introImage = "images/space_1.jpg";
-		String genericImage = "images/space_2.jpg";
+		String introImage = "src/puzzlegame/images/space_1.jpg";
+		String genericImage = "src/puzzlegame/images/space_2.jpg";
 		JLabel introBackground = new JLabel(new ImageIcon(introImage));
 		JLabel tutorialBackground = new JLabel(new ImageIcon(genericImage));
 		JLabel creditsBackground = new JLabel(new ImageIcon(genericImage));
@@ -310,7 +310,7 @@ public class PuzzleGUI extends JFrame {
 
 	}
 
-
+        
 
 	/**
 	 *  METHODS
@@ -323,7 +323,7 @@ public class PuzzleGUI extends JFrame {
 		remove(currentPanel);
 		add(newPanel);
 		currentPanel = newPanel;
-
+                
 		// Reconfigure screen
 		validate();
 		repaint();
