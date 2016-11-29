@@ -10,6 +10,13 @@
 package puzzlegame;
 
 // Import classes
+import com.fasterxml.jackson.annotation.JsonProperty;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.border.*;
 
@@ -17,17 +24,31 @@ import javax.swing.border.*;
 public class Puzzle {
 
 	// Declare puzzle variables
-	private String name = "*Level Screen*";
+        @JsonProperty("name") // jackson annotation
+	private String name = "*level screen*";
+        @JsonProperty("puzzleKeyName")
+	private String puzzleKeyName;
+        @JsonProperty("clues")
 	private String[] clues;
+        @JsonProperty("hints")
 	private String[] hints;
+        @JsonProperty("topLabels")
 	private String[] topLabels;
+        @JsonProperty("leftLabels")
 	private String[] leftLabels;
+        @JsonProperty("topHeaders")
 	private String[] topHeaders;
+        @JsonProperty("leftHeaders")
 	private String[] leftHeaders;
+        @JsonProperty("answerMatrix1")
 	private int[][] answerMatrix1 = new int[5][5];
+        @JsonProperty("answerMatrix2")
 	private int[][] answerMatrix2 = new int[5][5];
+        @JsonProperty("answerMatrix3")
 	private int[][] answerMatrix3 = new int[5][5];
-	
+	@JsonProperty("dialog")
+        private String dialog;
+        
 	// Declare utility variables
 	private JTable[] tables = new JTable[3];
 	private long startTime;
@@ -40,7 +61,10 @@ public class Puzzle {
 	private JButton submit;
 	private JButton restart;
 	
-	
+	// no arg constructor
+        public Puzzle() {
+            
+        }
 	
 	// Parameter constructor
 	public Puzzle(String name) {
@@ -50,12 +74,36 @@ public class Puzzle {
 	}
 
 	// Method for reading in puzzle data
-	public void readData(String fileName) {
+	public String readData(String fileName) {
 		
-		panel.add(new JLabel(name)); // TEMPORARY
-		
+		//panel.add(new JLabel(name)); // TEMPORARY
+                
+                // read in the selected file name as a string
+                String jsonString = ""; // holds the entire json file as a string
+                String fileLine;
+                BufferedReader inputStream = null;
+                
+            try {
+                inputStream = new BufferedReader(new FileReader("src/puzzlegame/puzzles/" + fileName + ".json"));
+                while ((fileLine = inputStream.readLine()) != null) {
+                    jsonString += fileLine;
+                }
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(Puzzle.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(Puzzle.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            return jsonString;
 	}
 
+        // Method for setting up panel components
+        public void setUpPanel() {
+        
+            panel.add(new JLabel(name)); // TEMPORARY
+            
+        }
+        
 	// Method for creating a new table
 	private JTable newTable() {
 		
@@ -90,4 +138,12 @@ public class Puzzle {
 		return panel;
 	}
 	
+        
+        // Getters for each field
+        // Method for getting puzzle name
+        public String getName() {
+            
+            return this.name;
+        }
+    
 }
