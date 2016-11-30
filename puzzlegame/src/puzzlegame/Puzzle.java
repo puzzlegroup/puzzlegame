@@ -3,124 +3,237 @@
  * Unauthorized copying of this file, via any medium is strictly prohibited
  * Proprietary and confidential
  * Written by John Celona, Vivian Murga, Brittney Pope, Michael McKenzie, Nick Buehre,
- * John Mask, and Ryan Hutchinson, November 2016
+ * John Mask, and Ryan Hutchinson, November-December 2016
  */
 
 // Import package
 package puzzlegame;
 
 // Import classes
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.io.*;
+import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.*;
+import javax.swing.table.DefaultTableModel;
+import com.fasterxml.jackson.annotation.*;
+
 
 // Puzzle class for use in PuzzleGUI
 public class Puzzle {
 
 	// Declare puzzle variables
-        @JsonProperty("name") // jackson annotation
-	private String name = "*level screen*";
-        @JsonProperty("puzzleKeyName")
+	@JsonProperty("name")
+	private String name;
+	@JsonProperty("puzzleKeyName")
 	private String puzzleKeyName;
-        @JsonProperty("clues")
+	@JsonProperty("clues")
 	private String[] clues;
-        @JsonProperty("hints")
+	@JsonProperty("hints")
 	private String[] hints;
-        @JsonProperty("topLabels")
+	@JsonProperty("topLabels")
 	private String[] topLabels;
-        @JsonProperty("leftLabels")
+	@JsonProperty("leftLabels")
 	private String[] leftLabels;
-        @JsonProperty("topHeaders")
+	@JsonProperty("topHeaders")
 	private String[] topHeaders;
-        @JsonProperty("leftHeaders")
+	@JsonProperty("leftHeaders")
 	private String[] leftHeaders;
-        @JsonProperty("answerMatrix1")
+	@JsonProperty("answerMatrix1")
 	private int[][] answerMatrix1 = new int[5][5];
-        @JsonProperty("answerMatrix2")
+	@JsonProperty("answerMatrix2")
 	private int[][] answerMatrix2 = new int[5][5];
-        @JsonProperty("answerMatrix3")
+	@JsonProperty("answerMatrix3")
 	private int[][] answerMatrix3 = new int[5][5];
 	@JsonProperty("dialog")
-        private String dialog;
-        
+	private String dialog;
+	
 	// Declare utility variables
 	private JTable[] tables = new JTable[3];
 	private long startTime;
 	private long finishTime;
 	private double totalTime;
-	
+
 	// Declare GUI variables
 	private JPanel panel = new JPanel();
 	private Border border;
+	
+	// Have JSON ignore buttons
+	@JsonIgnore
+	private JButton back;
+	private JButton hint;
 	private JButton submit;
 	private JButton restart;
-	
-	// no arg constructor
-        public Puzzle() {
-            
-        }
-	
-	// Parameter constructor
-	public Puzzle(String name) {
-		
-		// Read in data
-		readData(name);
-	}
+
+
+
+	// Default constructor
+	public Puzzle() {}
 
 	// Method for reading in puzzle data
 	public String readData(String fileName) {
-		
-		//panel.add(new JLabel(name)); // TEMPORARY
-                
-                // read in the selected file name as a string
-                String jsonString = ""; // holds the entire json file as a string
-                String fileLine;
-                BufferedReader inputStream = null;
-                
-            try {
-                inputStream = new BufferedReader(new FileReader("src/puzzlegame/puzzles/" + fileName + ".json"));
-                while ((fileLine = inputStream.readLine()) != null) {
-                    jsonString += fileLine;
-                }
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(Puzzle.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(Puzzle.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-            return jsonString;
+
+		// Declare and initialize file string variables
+		String fileLine;
+		String jsonString = "";
+		String fileLocation = "src/puzzlegame/puzzles/" + fileName + ".json";
+
+		// Attempt to read specified file as string
+		try {
+
+			// Create new buffered reader at the files location
+			BufferedReader inputStream = new BufferedReader(new FileReader(fileLocation));
+
+			// Read entire input file into a single string 
+			while ((fileLine = inputStream.readLine()) != null)
+				jsonString += fileLine;
+
+			// Close input stream
+			inputStream.close();
+
+		}
+		// Handle errors if they occur
+		catch (Exception e) {
+
+			// Output error message
+			JOptionPane.showMessageDialog(null, "Error reading JSON file",
+					"Error", JOptionPane.ERROR_MESSAGE);
+		}
+
+		return jsonString;
 	}
 
-        // Method for setting up panel components
-        public void setUpPanel() {
-        
-            panel.add(new JLabel(name)); // TEMPORARY
-            
-        }
-        
 	// Method for creating a new table
 	private JTable newTable() {
-		
-		
-		return null;
-	}
 
+		// Declare and initialize table variables
+		int size = 5 ;
+		int cellWidth = 32;
+		int cellHeight = 30;
+		int borderWidth = 4;
+		String correct = " O";
+		String incorrect = " X";
+		Color borderColor = Color.GRAY;
+		Font font = new Font(null, Font.BOLD, 25);
+
+		// Create new table model
+		DefaultTableModel model = new DefaultTableModel(size, size) {
+
+			// Set cells to not editable
+			public boolean isCellEditable(int row, int column) {
+
+				return false;
+			}
+		};
+
+		// Create table
+		JTable newTable = new JTable(model);
+
+
+
+		// Set cell height
+		newTable.setRowHeight(cellHeight);
+		newTable.setCellSelectionEnabled(false);
+
+		// Set cell width
+		for (int i = 0; i < size; i++)
+			newTable.getColumnModel().getColumn(i).setPreferredWidth(cellWidth);
+
+		// Set table border
+		Border border = BorderFactory.createMatteBorder(borderWidth,
+				borderWidth, borderWidth, borderWidth, borderColor);
+		newTable.setBorder(border);
+
+		// Set table font
+		newTable.setFont(font);
+
+
+
+		// Set mouse click action
+		newTable.addMouseListener(new MouseAdapter() {
+
+			// Create mouse click method
+			public void mouseClicked(MouseEvent event) {
+
+				// Get selected cell
+				int row = newTable.getSelectedRow();
+				int column = newTable.getSelectedColumn();
+
+				// Look at selected cell contents
+				switch(String.valueOf(newTable.getValueAt(row, column))) {
+
+				case " X":
+
+					// Check cross values
+					for(int i = 0; i < size; i++)
+						for(int j = 0; j < size; j++)
+							if((i == row || j == column)) {
+
+								try{
+
+									// Check if value is marked as correct
+									if(newTable.getValueAt(i, j).equals(correct)) {
+
+										// Output help dialog
+										JOptionPane.showMessageDialog(null,
+												  "Only one box can be marked\n"
+												+ "correct in any row or column.\n"
+												+ "Remove the existing correct value\n"
+												+ "before setting the new one.\n");
+										return;
+									}
+								}
+								catch(Exception error){}
+
+							}
+
+					// Set cross values to incorrect
+					for(int i = 0; i < size; i++)
+						for(int j = 0; j < size; j++)
+							if(i == row || j == column)
+								newTable.setValueAt(incorrect, i, j);
+
+					// Set selected value to correct
+					newTable.setValueAt(correct, row, column);
+
+					break;
+
+				case " O":
+
+					// Set cross values to null
+					for(int i = 0; i < size; i++)
+						for(int j = 0; j < size; j++)
+							if(i == row || j == column)
+								newTable.setValueAt(null, i, j);
+
+					break;
+
+				default:
+
+					// Set selected value to incorrect
+					newTable.setValueAt(incorrect, row, column);
+					break;
+
+				}
+
+			}
+			
+		});
+
+		// Output table
+		return newTable;
+	}
+	
 	// Method for giving user a hint
 	private void giveHint() {
-	
-		
-		
+
+
+
 	}
-	
+
 	// Method for checking user's answers
 	private int checkAnswers() {
-		
+
 
 		return 0;
 	}
@@ -129,21 +242,125 @@ public class Puzzle {
 	private void restartPuzzle() {
 		
 		
-		
+        
+        
+
 	}
-	
+
+	// Method for initializing puzzle screen
+	public void initializePanel() {
+
+		// Declare and initialize GUI variables
+		int buttonWidth = 120;
+        int buttonHeight = 35;
+        int buttonSeperation = 10;
+        int tableSeperation = -4;
+		Font font = new Font(null, Font.BOLD, 16);
+		
+		// Declare and initialize titles
+		String backTitle = "Back";
+        String hintTitle = "Hint";
+        String restartTitle = "Restart";
+        String submitTitle = "Submit";
+        
+		// Declare and initialize layout variables
+        String top = SpringLayout.NORTH;
+        String bottom = SpringLayout.SOUTH;
+        String left = SpringLayout.WEST;
+        String right = SpringLayout.EAST;
+        
+        // Declare and initialize image background
+        String image = "src/puzzlegame/images/space_2.jpg";
+        JLabel background = new JLabel(new ImageIcon(image));
+        
+        // Customize GUI elements
+        SpringLayout layout = new SpringLayout();
+        panel.setLayout(layout);
+        Dimension buttonSize = new Dimension(buttonWidth, buttonHeight);
+        
+        
+        
+        // Create back button
+        back = new JButton(backTitle);
+        back.setFont(font);
+        back.setPreferredSize(buttonSize);
+        panel.add(back);
+        
+        // Create hint button
+        hint = new JButton(hintTitle);
+        hint.setFont(font);
+        hint.setPreferredSize(buttonSize);
+        hint.addActionListener(event -> giveHint());
+        panel.add(hint);
+        
+        // Create restart button
+        restart = new JButton(restartTitle);
+        restart.setFont(font);
+        restart.setPreferredSize(buttonSize);
+        restart.addActionListener(event -> restartPuzzle());
+        panel.add(restart);
+        
+        // Create submit button
+        submit = new JButton(submitTitle);
+        submit.setFont(font);
+        submit.setPreferredSize(buttonSize);
+        submit.addActionListener(event -> checkAnswers());
+        panel.add(submit);
+        
+        // Create tables
+        for(int i = 0; i < tables.length; i++) {
+        	
+        	tables[i] = newTable();
+        	panel.add(tables[i]);
+        }
+        
+        // Add background image
+        panel.add(background);
+        panel.setComponentZOrder(background, panel.getComponentCount() - 1);
+        
+        
+        
+        // Constrain back button
+        layout.putConstraint(left, back, buttonSeperation, left, panel);
+        layout.putConstraint(top, back, buttonSeperation, top, panel);
+        
+        // Constrain first table
+        layout.putConstraint(left, tables[0], buttonSeperation, left, panel);
+        layout.putConstraint(top, tables[0], buttonSeperation, bottom, back);
+        
+        // Constrain second table
+        layout.putConstraint(left, tables[1], tableSeperation, right, tables[0]);
+        layout.putConstraint(top, tables[1], 0, top, tables[0]);
+        
+        // Constrain third table
+        layout.putConstraint(left, tables[2], 0, left, tables[0]);
+        layout.putConstraint(top, tables[2], tableSeperation, bottom, tables[0]);
+        
+        // Constrain hint button
+        layout.putConstraint(left, hint, buttonSeperation*2, right, tables[2]);
+        layout.putConstraint(top, hint, buttonSeperation, top, tables[2]);
+        
+        // Constrain restart button
+        layout.putConstraint(left, restart, 0, left, hint);
+        layout.putConstraint(top, restart, buttonSeperation, bottom, hint);
+        
+        // Constrain submit button
+        layout.putConstraint(left, submit, 0, left, hint);
+        layout.putConstraint(top, submit, buttonSeperation, bottom, restart);
+        
+
+	}
+
 	// Method for getting puzzle screen
 	public JPanel getPanel() {
-		
+
 		return panel;
 	}
 	
-        
-        // Getters for each field
-        // Method for getting puzzle name
-        public String getName() {
-            
-            return this.name;
-        }
-    
+	// Method for getting back button
+	public JButton getBack() {
+		
+		return back;
+	}
+	
 }
