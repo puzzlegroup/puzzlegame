@@ -27,6 +27,8 @@ public final class PuzzleTest {
 
     // Declare variables
     private static ObjectMapper mapper;
+    private static Puzzle puzzle;
+    private static String puzzleKeyName;
     
     @BeforeClass
     public static void setUpClass() {
@@ -34,6 +36,14 @@ public final class PuzzleTest {
 
         // initialize
         mapper = new ObjectMapper();
+        puzzle = new Puzzle();
+        puzzleKeyName = "puzzledatatest"; // holds puzzledatatest json
+        
+        try {
+            puzzle = mapper.readValue(puzzle.readData(puzzleKeyName), Puzzle.class);
+        } catch (IOException ex) {
+            Logger.getLogger(PuzzleTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @AfterClass
@@ -42,6 +52,9 @@ public final class PuzzleTest {
 
         // assign variables, null
         mapper = null;
+        puzzle = null;
+        puzzleKeyName = null;
+        
     }
 
     @Before
@@ -58,24 +71,17 @@ public final class PuzzleTest {
      * Test
      */
     @Test
-    public void testPuzzle() {
+    public void testGetName() {
 
         // declare and initilize test variables
         String expected = "Test Puzzle";
         String result = "";
         
-        Puzzle puzzleTest = new Puzzle();
-        try {
-            puzzleTest = mapper.readValue(puzzleTest.readData("puzzledatatest"), Puzzle.class);
-        } catch (IOException ex) {
-            Logger.getLogger(PuzzleTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        result = puzzleTest.getName();
-        System.out.println(result);
+        result = puzzle.getName();
+        System.out.println("@Test testPuzzle(): expected = '" + expected + "', " + "result = '" + result + "'");
         assertEquals(expected, result);
-
-    } // end testPuzzle
+        
+    } // end testGetName
 
     /**
      * Test
