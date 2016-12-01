@@ -70,7 +70,7 @@ public final class PuzzleTest {
     /**
      * Test
      */
-    @Test
+    /*@Test
     public void testGetName() {
 
         // declare and initilize test variables
@@ -82,7 +82,7 @@ public final class PuzzleTest {
         assertEquals(expected, result);
         
     } // end testGetName
-
+    */
     /**
      * Test
      */
