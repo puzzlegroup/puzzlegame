@@ -53,8 +53,8 @@ public class PuzzleGUI extends JFrame {
 	private JButton levelButtons[] = new JButton[puzzleNames.length];
 
 	// Declare sound wav file sources
-	private static String introMusic = "src/puzzlegame/Sound Wavs/Star_Trek Famous.wav";
-	private static String creditsMusic = "src/puzzlegame/Sound Wavs/Star_Trek End Credit.wav";
+	private static String introMusic = "src/puzzlegame/sound-wavs/Star_Trek Famous.wav";
+	private static String creditsMusic = "src/puzzlegame/sound-wavs/Star_Trek End Credit.wav";
 
 	// Main program
 	public static void main(String[] args) {
@@ -310,7 +310,7 @@ public class PuzzleGUI extends JFrame {
 		// Add panel to frame
 		add(introPanel);
 		setVisible(true);
-
+                
 	}
 
 	/**
