@@ -34,7 +34,7 @@ public final class PuzzleTest {
     public static void setUpClass() {
         System.out.println("@BeforeClass: setUpClass()");
 
-        // initialize
+        // initialize variables
         mapper = new ObjectMapper();
         puzzle = new Puzzle();
         puzzleKeyName = "puzzledatatest"; // holds puzzledatatest json
@@ -70,27 +70,35 @@ public final class PuzzleTest {
     /**
      * Test
      */
-    /*@Test
-    public void testGetName() {
+    @Test
+    public void testReadData() {
 
-        // declare and initilize test variables
-        String expected = "Test Puzzle";
+        // declare and initialize variables
+        String expected = "{    \"name\": \"Test Puzzle\",        \"puzzleKeyName\": \"puzzledatatest\",        \"topHeaders\": [\"owners\",\"breeds\"],        \"leftHeaders\": [\"years\", \"dogs\"],        \"topLabels\": [\"Anita\", \"Barbara\", \"Douglas\", \"Fernando\", \"Ginger\", \"Beagle\", \"Bulldog\", \"Chow Chow\", \"Great Dane\", \"Maltese\"],        \"leftLabels\": [\"2006\", \"2007\", \"2008\", \"2009\", \"2010\",\"Max\", \"Molly\", \"Riley\", \"Samson\", \"Shadow\"],        \"dialog\": \"Each dog owner has a name and owns one dog. Each dog has a name \\nand is an unique breed. The years represent when the owner first \\naquired the dog.\",        \"clues\": [\"Anita bought Riley in 2008 and he is a Beagle.\",              \"Barbara adopted Samson in 2006 and he is a Great Dane.\",              \"Douglas found Shadow in 2009 and she is a Bulldog.\",              \"Fernando bought Max, a Chow Chow, in 2007.\",              \"Ginger had Molly the Maltese, since 2010.\"],        \"hints\": [\"Ginger owns Molly.\",              \"Barbara has a Great Dane.\",              \"Shadow was found in 2009.\"],        \"answerMatrix1\": [[0,1,0,0,0],                      [0,0,0,1,0],                      [1,0,0,0,0],                      [0,0,1,0,0],                      [0,0,0,0,1]],                      \"answerMatrix2\": [[0,0,0,1,0],                      [0,0,1,0,0],                      [1,0,0,0,0],                      [0,1,0,0,0],                      [0,0,0,0,1]],        \"answerMatrix3\": [[0,0,0,1,0],                      [0,0,0,0,1],                      [1,0,0,0,0],                      [0,1,0,0,0],                      [0,0,1,0,0]]}";
         String result = "";
         
-        result = puzzle.getName();
-        System.out.println("@Test testPuzzle(): expected = '" + expected + "', " + "result = '" + result + "'");
+        // call readData and get json data
+        result = puzzle.readData(puzzleKeyName);
+        
+        System.out.println("@Test testReadData(): \nexpected = " + expected + ", \n" + "result   = " + result );
+        
         assertEquals(expected, result);
         
-    } // end testGetName
-    */
+        expected = null;
+        result = null;
+        
+    } // end testReadData
+    
+    
     /**
      * Test
      */
-    @Test
+    /*@Test
     public void testGetPanel() {
 
         //
         
     } // end testGetPanel
-
+    */
+    
 }
