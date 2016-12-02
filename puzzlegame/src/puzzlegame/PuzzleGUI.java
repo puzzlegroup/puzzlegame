@@ -12,6 +12,8 @@ package puzzlegame;
 // Import classes
 import java.awt.*;
 import javax.swing.*;
+import java.io.*;
+import sun.audio.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 // GUI for Team Vulcan's Logic Quest game
@@ -50,13 +52,17 @@ public class PuzzleGUI extends JFrame {
 	private String[] puzzleKeyNames = {"puzzledatatest", "a01-level01"};
 	private JButton levelButtons[] = new JButton[puzzleNames.length];
 
-
+	// Declare sound wav file sources
+	private static String introMusic = "src/puzzlegame/Sound Wavs/Star_Trek Famous.wav";
+	private static String creditsMusic = "src/puzzlegame/Sound Wavs/Star_Trek End Credit.wav";
 
 	// Main program
 	public static void main(String[] args) {
 
 		// Create GUI
 		PuzzleGUI GUI = new PuzzleGUI();
+		
+		playMusic(introMusic);
 	}
 
 	// GUI constructor
@@ -311,6 +317,25 @@ public class PuzzleGUI extends JFrame {
 	 * METHODS
 	 */
 
+	// Method for playing background music
+	private static void playMusic(String string) {
+		
+		AudioPlayer MGP = AudioPlayer.player;
+		AudioStream BGM;
+		//AudioData MD;
+		//ContinuousAudioDataStream loop = null;
+		
+		try {
+			InputStream file = new FileInputStream(string);
+			BGM = new AudioStream(file);
+			AudioPlayer.player.start(BGM);
+			//MD = BGM.getData();
+			//loop = new ContinuousAudioDataStream(MD);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	// Method for showing a new screen
 	private void showPanel(JPanel newPanel) {
 
