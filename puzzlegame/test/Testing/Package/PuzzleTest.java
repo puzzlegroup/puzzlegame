@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JPanel;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
@@ -93,12 +94,25 @@ public final class PuzzleTest {
     /**
      * Test
      */
-    /*@Test
+    @Test
     public void testGetPanel() {
 
-        //
+        // declare and initialize
+        String expected = "javax.swing.JPanel";
+        String result = null;
+        JPanel jpanel = null;
         
+        // call getPanel and assign to result
+        jpanel = puzzle.getPanel();
+        result = jpanel.getClass().getName();
+        
+        System.out.println("@Test testGetPanel(): expected = " + expected + ", result = " + result);
+        assertEquals(expected, result);
+        
+        expected = null;
+        result = null;
+        jpanel = null;
     } // end testGetPanel
-    */
+    
     
 }
