@@ -11,8 +11,8 @@ import javax.swing.*;
 class ButtonFrame extends JFrame
 {
     private static final long serialVersionUID = 1L;
-  int buttonWidth = 120;
-  int buttonHeight = 20;
+  int buttonWidth = 130;
+  int buttonHeight = 30;
 Dimension buttonSize = new Dimension(buttonWidth, buttonHeight);
   // constructor for ButtonFrame
   ButtonFrame(String title) 
@@ -22,11 +22,17 @@ Dimension buttonSize = new Dimension(buttonWidth, buttonHeight);
     
     
     ImageIcon icon2 = (new ImageIcon(getClass().getClassLoader().getResource("nebula.jpg")));
-       Image img = icon2.getImage();
-Image newimg = img.getScaledInstance(buttonWidth,buttonHeight,  java.awt.Image.SCALE_SMOOTH);
-        ImageIcon newIcon = new ImageIcon(newimg);
-    JButton voyButton = new JButton(newIcon);
+    Image img = icon2.getImage();
+    Image newimg = img.getScaledInstance(buttonWidth,buttonHeight,  java.awt.Image.SCALE_SMOOTH);
+    ImageIcon newIcon = new ImageIcon(newimg);
+    JButton voyButton = new JButton("Mission 1");
+    voyButton.setFont(new Font("Times New Roman",Font.BOLD,20));
+    voyButton.setIcon(newIcon);
+    voyButton.setHorizontalTextPosition(JButton.CENTER);
+    voyButton.setVerticalTextPosition(JButton.CENTER);
     voyButton.setPreferredSize(buttonSize);
+    
+    
     add(voyButton);
     setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );   
   }
