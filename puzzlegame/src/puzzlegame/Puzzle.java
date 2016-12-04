@@ -314,6 +314,64 @@ public class Puzzle {
         	panel.add(tables[i]);
         }
         
+        // set dimension of labels
+        Dimension labelDim = new Dimension(100,30);
+        Dimension labelDimVert = new Dimension(32,150);
+        Dimension headerDimVert = new Dimension(32,150);
+        Dimension headerDim = new Dimension(160,30);
+        
+        // declare and intitiate leftJLabels array
+        JLabel[] leftJLabels = new JLabel[leftLabels.length];
+        
+        for(int i = 0; i < leftLabels.length; i++ ) {
+            leftJLabels[i] = new JLabel(leftLabels[i]);
+            leftJLabels[i].setOpaque(true);
+            leftJLabels[i].setPreferredSize(labelDim);
+            leftJLabels[i].setBorder(BorderFactory.createLineBorder(Color.GRAY));
+            panel.add(leftJLabels[i]);
+        }
+        
+        // declare and intitiate topJLabels array
+        JLabel[] topJLabels = new JLabel[topLabels.length];
+        
+        for(int i = 0; i < topLabels.length; i++ ) {
+            topJLabels[i] = new JLabel(stringToHtml(topLabels[i]));
+            topJLabels[i].setOpaque(true);
+            topJLabels[i].setPreferredSize(labelDimVert);
+            topJLabels[i].setBorder(BorderFactory.createLineBorder(Color.GRAY));
+            topJLabels[i].setHorizontalAlignment(SwingConstants.CENTER);
+            topJLabels[i].setVerticalAlignment(SwingConstants.TOP);
+            panel.add(topJLabels[i]);
+        }
+        
+        // declare and intiatlize left headers
+        JLabel leftHeader0 = new JLabel(stringToHtml(leftHeaders[0]));
+        JLabel leftHeader1 = new JLabel(stringToHtml(leftHeaders[1]));
+        leftHeader0.setPreferredSize(headerDimVert);
+        leftHeader1.setPreferredSize(headerDimVert);
+        leftHeader0.setHorizontalAlignment(SwingConstants.CENTER);
+        leftHeader1.setHorizontalAlignment(SwingConstants.CENTER);
+        leftHeader0.setOpaque(true);
+        leftHeader1.setOpaque(true);
+        leftHeader0.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        leftHeader1.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        panel.add(leftHeader0);
+        panel.add(leftHeader1);
+        
+        // declare and intiatlize top headers
+        JLabel topHeader0 = new JLabel(topHeaders[0]);
+        JLabel topHeader1 = new JLabel(topHeaders[1]);
+        topHeader0.setPreferredSize(headerDim);
+        topHeader1.setPreferredSize(headerDim);
+        topHeader0.setHorizontalAlignment(SwingConstants.CENTER);
+        topHeader1.setHorizontalAlignment(SwingConstants.CENTER);
+        topHeader0.setOpaque(true);
+        topHeader1.setOpaque(true);
+        topHeader0.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        topHeader1.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        panel.add(topHeader0);
+        panel.add(topHeader1);
+        
         // Add background image
         panel.add(background);
         panel.setComponentZOrder(background, panel.getComponentCount() - 1);
@@ -324,9 +382,69 @@ public class Puzzle {
         layout.putConstraint(left, back, buttonSeperation, left, panel);
         layout.putConstraint(top, back, buttonSeperation, top, panel);
         
+        // leftJLabels
+        // Constraint first leftJLabels[0]
+        layout.putConstraint(right, leftJLabels[0], 0, left, tables[0]);
+        layout.putConstraint(top, leftJLabels[0], 150, bottom, back);
+        
+        // loop to put constraints leftJLabels 1-4
+        for(int i = 1; i < leftJLabels.length/2; i++) {
+            layout.putConstraint(right, leftJLabels[i], 0, left, tables[0]);
+            layout.putConstraint(top, leftJLabels[i], 0, bottom, leftJLabels[i-1]);
+        }
+        
+        // Constraint fifth leftJLabels[5]
+        layout.putConstraint(right, leftJLabels[5], 0, left, tables[2]);
+        layout.putConstraint(top, leftJLabels[5], 135+(32*5), bottom, back);
+        
+        // loop to put constraints leftJLabels 6-9
+        for(int i = 6; i < leftJLabels.length; i++) {
+            layout.putConstraint(right, leftJLabels[i], 0, left, tables[2]);
+            layout.putConstraint(top, leftJLabels[i], 0, bottom, leftJLabels[i-1]);
+        }
+        // end leftJLabels
+        
+        // top labels
+        // Constraint first topJLabels[0]
+        layout.putConstraint(left, topJLabels[0], 0, left, tables[0]);
+        layout.putConstraint(bottom, topJLabels[0], 0, top, tables[0]);
+        
+        // loop to put constraints topJLabels 1-4
+        for(int i = 1; i < topJLabels.length/2; i++) {
+            layout.putConstraint(left, topJLabels[i], 0, right, topJLabels[i-1]);
+            layout.putConstraint(bottom, topJLabels[i], 0, top, tables[0]);
+        }
+        
+        // Constraint fifth topJLabels[5]
+        layout.putConstraint(left, topJLabels[5], 0, left, tables[1]);
+        layout.putConstraint(bottom, topJLabels[5], 0, top, tables[1]);
+        
+        // loop to put constraints topJLabels 6-9
+        for(int i = 6; i < topJLabels.length; i++) {
+            layout.putConstraint(left, topJLabels[i], 0, right, topJLabels[i-1]);
+            layout.putConstraint(bottom, topJLabels[i], 0, top, tables[1]);
+        }
+        // end top labels
+        
+        // leftheader0
+        layout.putConstraint(bottom, leftHeader0, 0 , bottom, tables[0]);
+        layout.putConstraint(right, leftHeader0, 0 , left, leftJLabels[4]);
+        
+        // leftheader1
+        layout.putConstraint(bottom, leftHeader1, 0 , bottom, tables[2]);
+        layout.putConstraint(right, leftHeader1, 0 , left, leftJLabels[9]);
+        
+        // topheader0
+        layout.putConstraint(left, topHeader0, 0 , left, tables[0]);
+        layout.putConstraint(bottom, topHeader0, 0 , top, topJLabels[0]);
+        
+        // topheader1
+        layout.putConstraint(left, topHeader1, tableSeperation , right, tables[0]);
+        layout.putConstraint(bottom, topHeader1, 0 , top, topJLabels[5]);
+        
         // Constrain first table
-        layout.putConstraint(left, tables[0], buttonSeperation, left, panel);
-        layout.putConstraint(top, tables[0], buttonSeperation, bottom, back);
+        layout.putConstraint(left, tables[0], 150, left, panel);
+        layout.putConstraint(top, tables[0], 150, bottom, back);
         
         // Constrain second table
         layout.putConstraint(left, tables[1], tableSeperation, right, tables[0]);
@@ -363,4 +481,19 @@ public class Puzzle {
 		return back;
 	}
 	
+        // Method for getting html string for vertical JLabel text
+        public static String stringToHtml(String s) {
+            String result = "<html>";
+            String br = "<br>";
+            
+            String[] letters = s.split("");
+            
+            for(String letter : letters) {
+                result += letter + br;
+            }
+            
+            result += "</html>";
+            return result;
+        } // end stringToHtml
+        
 }
