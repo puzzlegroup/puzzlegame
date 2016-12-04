@@ -3,11 +3,11 @@
     
     "puzzleKeyName": "puzzledatatest",
     
-    "topHeaders": ["owners","breeds"],
+    "topHeaders": ["Owners","Breeds"],
     
-    "leftHeaders": ["years", "dogs"],
+    "leftHeaders": ["Years", "Dogs"],
     
-    "topLabels": ["Anita", "Barbara", "Douglas", "Fernando", "Ginger", "Beagle", "Bulldog", "Chow Chow", "Great Dane", "Maltese"],
+    "topLabels": ["Anita", "Barbara", "Douglas", "Fernando", "Ginger", "Beagle", "Bulldog", "Chow Chow", "GreatDane", "Maltese"],
     
     "leftLabels": ["2006", "2007", "2008", "2009", "2010","Max", "Molly", "Riley", "Samson", "Shadow"],
     
