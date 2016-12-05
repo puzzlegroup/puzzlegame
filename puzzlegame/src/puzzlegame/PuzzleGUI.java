@@ -11,9 +11,9 @@ package puzzlegame;
 
 // Import classes
 import java.awt.*;
-import javax.swing.*;
-import java.io.*;
+import java.awt.event.*;
 import sun.audio.*;
+import javax.swing.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 // GUI for Team Vulcan's Logic Quest game
@@ -59,7 +59,7 @@ public class PuzzleGUI extends JFrame {
 
 		// Create GUI
 		PuzzleGUI GUI = new PuzzleGUI();
-		
+
 		playMusic(introMusic);
 	}
 
@@ -78,8 +78,6 @@ public class PuzzleGUI extends JFrame {
 		int buttonXOffset = (frameWidth / 2) - (buttonWidth / 2);
 		int buttonYOffset = 350;
 		int buttonSeperation = 10;
-		//int textRows = 5;			Not sure if these are needed elsewhere. If so uncomment them
-		//int textColumns = 20;
 		Font font = new Font(null, Font.BOLD, 16);
 
 		// Declare and initialize titles
@@ -88,6 +86,8 @@ public class PuzzleGUI extends JFrame {
 		String playTitle = "Play";
 		String tutorialTitle = "Tutorial";
 		String creditsTitle = "Credits";
+		String goalTitle = "Goal\n\nThe goal is to complete each puzzle\n...time\n...stars";
+		String howToTitle = "How to play\n\nStep-by-step mini puzzle goes here";
 
 		// Declare and initialize layout variables
 		String top = SpringLayout.NORTH;
@@ -95,39 +95,14 @@ public class PuzzleGUI extends JFrame {
 		String left = SpringLayout.WEST;
 		String right = SpringLayout.EAST;
 
-		//Declare and initialize Tutorial content
-		String goalImg = "src/puzzlegame/images/goal.jpg";
-		String controlsImg = "src/puzzlegame/images/controls.jpg";
-		String exampleImg = "src/puzzlegame/images/example.jpg";
-		String clueImg_1 = "src/puzzlegame/images/clue1.jpg";
-		String clueImg_2 = "src/puzzlegame/images/clue2.jpg";
-		String clueImg_3 = "src/puzzlegame/images/clue3.jpg";
-		String clueImg_4 = "src/puzzlegame/images/clue4.jpg";
-		String crossRefImg_1 = "src/puzzlegame/images/crossRef1.jpg";
-		String crossRefImg_2 = "src/puzzlegame/images/crossRef2.jpg";
-		String refClueImg = "src/puzzlegame/images/refClue.jpg";
-		
-		JLabel goal = new JLabel(new ImageIcon(goalImg));
-		JLabel controls = new JLabel(new ImageIcon(controlsImg));
-		JLabel example = new JLabel(new ImageIcon(exampleImg));
-		JLabel clue_1 = new JLabel(new ImageIcon(clueImg_1));
-		JLabel clue_2 = new JLabel(new ImageIcon(clueImg_2));
-		JLabel clue_3 = new JLabel(new ImageIcon(clueImg_3));
-		JLabel clue_4 = new JLabel(new ImageIcon(clueImg_4));
-		JLabel crossRef_1 = new JLabel(new ImageIcon(crossRefImg_1));
-		JLabel crossRef_2 = new JLabel(new ImageIcon(crossRefImg_2));
-		JLabel refClue = new JLabel(new ImageIcon(refClueImg));
-		
-		//Declare and initialize Credits content
-		String creditsImg = "src/puzzlegame/images/credits.jpg";
-		JLabel creditsContent = new JLabel(new ImageIcon(creditsImg));
-		
 		// Declare and initialize image backgrounds
 		String introImage = "src/puzzlegame/images/space_1.jpg";
-		String genericImage = "src/puzzlegame/images/space_3.jpg";
+		String genericImage = "src/puzzlegame/images/space_2.jpg";
+		String creditsImage = "src/puzzlegame/images/credits.jpg";
+		String[] tutorialImages = {"goalImg","controlsImg","exampleImg"};
 		JLabel introBackground = new JLabel(new ImageIcon(introImage));
-		JLabel tutorialBackground = new JLabel(new ImageIcon(genericImage));
-		JLabel creditsBackground = new JLabel(new ImageIcon(genericImage));
+		//JLabel tutorialBackground = new JLabel(new ImageIcon(genericImage));
+		JLabel creditsBackground = new JLabel(new ImageIcon(creditsImage));
 
 		// Customize GUI elements
 		Dimension buttonSize = new Dimension(buttonWidth, buttonHeight);
@@ -273,75 +248,88 @@ public class PuzzleGUI extends JFrame {
 		back_2.setPreferredSize(buttonSize);
 		back_2.addActionListener(event -> showPanel(introPanel));
 		tutorialPanel.add(back_2);
-		
-		// Create tutorial content areas
-		tutorialPanel.add(goal);
-		tutorialPanel.add(controls);
-		tutorialPanel.add(example);
-		tutorialPanel.add(clue_1);
-		tutorialPanel.add(clue_2);
-		tutorialPanel.add(clue_3);
-		tutorialPanel.add(clue_4);
-		tutorialPanel.add(crossRef_1);
-		tutorialPanel.add(refClue);
-		tutorialPanel.add(crossRef_2);
-
-		// Add background image
-		tutorialPanel.add(tutorialBackground);
-		tutorialPanel.setComponentZOrder(tutorialBackground, tutorialPanel.getComponentCount() - 1);
 
 		// Constrain second back button
 		layout.putConstraint(left, back_2, buttonSeperation, left, tutorialPanel);
 		layout.putConstraint(top, back_2, buttonSeperation, top, tutorialPanel);
 
-		// Constrain goal area
-		layout.putConstraint(left, goal, buttonWidth, left, tutorialPanel);
-		layout.putConstraint(top, goal, buttonWidth, top, back_2);
+		// Declare image array
+		String source = "src/puzzlegame/images/";
+		String type = ".jpg";
+		JLabel[] tutorialBackgrounds = new JLabel[3];
 
-		// Constrain controls area
-		layout.putConstraint(left, controls, buttonSeperation, right, goal);
-		layout.putConstraint(top, controls, 0, top, goal);
-		
-		// Constrain example area
-		layout.putConstraint(left, example, buttonSeperation, right, controls);
-		layout.putConstraint(top, example, 0, top, controls);
-		
-		// Constrain clue_1 area
-		layout.putConstraint(left, clue_1, buttonSeperation, right, example);
-		layout.putConstraint(top, clue_1, 0, top, example);
-		
-		// Constrain clue_2 area
-		layout.putConstraint(left, clue_2, buttonSeperation, right, clue_1);
-		layout.putConstraint(top, clue_2, 0, top, clue_1);
-		
-		// Constrain clue_3 area
-		layout.putConstraint(left, clue_3, buttonSeperation, right, clue_2);
-		layout.putConstraint(top, clue_3, 0, top, clue_2);
-		
-		// Constrain clue_4 area
-		layout.putConstraint(left, clue_4, buttonSeperation, right, clue_3);
-		layout.putConstraint(top, clue_4, 0, top, clue_3);
-		
-		// Constrain crossRef_1 area
-		layout.putConstraint(left, crossRef_1, buttonSeperation, right, clue_4);
-		layout.putConstraint(top, crossRef_1, 0, top, clue_4);
-		
-		// Constrain refClue area
-		layout.putConstraint(left, refClue, buttonSeperation, right, crossRef_1);
-		layout.putConstraint(top, refClue, 0, top, crossRef_1);
-		
-		// Constrain crossRef_2 area
-		layout.putConstraint(left, crossRef_2, buttonSeperation, right, refClue);
-		layout.putConstraint(top, crossRef_2, 0, bottom, refClue);
+		// Create 
+		for(int i = 0; i < tutorialImages.length; i++)
+			tutorialBackgrounds[i] = new JLabel(new ImageIcon(source + tutorialImages[i] + type));
+
+		// Add background image
+		tutorialPanel.add(tutorialBackgrounds[0]);
+		tutorialPanel.setComponentZOrder(tutorialBackgrounds[0], tutorialPanel.getComponentCount() - 1);
+
+		// Add mouse listener to handle clicks for tutorial viewing
+		tutorialPanel.addMouseListener(new MouseAdapter() {
+
+			// Declare and initialize index variable
+			int currentIndex = 0;
+
+			// Create mouse click method
+			public void mouseClicked(MouseEvent event) {
+
+				// Check mouse button
+				switch(event.getButton()) {
+
+				// Go left an image if left clicked
+				case 1:
+
+					// Check if user is at first image
+					if(currentIndex == 0)
+						return;
+
+					// Replace background image
+					tutorialPanel.remove(tutorialBackgrounds[currentIndex]);
+					tutorialPanel.add(tutorialBackgrounds[currentIndex - 1]);
+					tutorialPanel.setComponentZOrder(tutorialBackgrounds[currentIndex - 1],
+							tutorialPanel.getComponentCount() - 1);
+
+					// Update current index
+					currentIndex--;			
+
+					break;
+
+				case 3:
+
+					// Check if user is at last image
+					if(currentIndex == tutorialImages.length - 1)
+						return;
+
+					// Replace background image
+					tutorialPanel.remove(tutorialBackgrounds[currentIndex]);
+					tutorialPanel.add(tutorialBackgrounds[currentIndex + 1]);
+					tutorialPanel.setComponentZOrder(tutorialBackgrounds[currentIndex + 1],
+							tutorialPanel.getComponentCount() - 1);
+
+					// Update current index
+					currentIndex++;	
+
+					break;
+
+				default:
+					break;
+				}
+
+				// Reconfigure screen
+				tutorialPanel.validate();
+				tutorialPanel.repaint();
+
+			}
+			
+		});
 
 
 		/**
 		 * CREDITS SCREEN
 		 */
-		
-		//Create credits content area
-		creditsPanel.add(creditsContent);
-		
+
 		// Create third back button
 		back_3 = new JButton(backTitle);
 		back_3.setFont(font);
@@ -356,10 +344,6 @@ public class PuzzleGUI extends JFrame {
 		// Constraint third back button
 		layout.putConstraint(left, back_3, buttonSeperation, left, creditsPanel);
 		layout.putConstraint(top, back_3, buttonSeperation, top, creditsPanel);
-		
-		//Constrain credits content
-		layout.putConstraint(left, creditsContent, buttonSeperation, left, back_3);
-		layout.putConstraint(top, creditsContent, buttonSeperation, bottom, back_3);
 
 
 		/**
@@ -372,7 +356,7 @@ public class PuzzleGUI extends JFrame {
 		// Add panel to frame
 		add(introPanel);
 		setVisible(true);
-                
+
 	}
 
 	/**
@@ -381,23 +365,23 @@ public class PuzzleGUI extends JFrame {
 
 	// Method for playing background music
 	private static void playMusic(String string) {
-		
+
 		AudioPlayer MGP = AudioPlayer.player;
 		AudioStream BGM;
 		//AudioData MD;
 		//ContinuousAudioDataStream loop = null;
-		
+
 		try {
 			InputStream file = new FileInputStream(string);
 			BGM = new AudioStream(file);
 			AudioPlayer.player.start(BGM);
 			//MD = BGM.getData();
 			//loop = new ContinuousAudioDataStream(MD);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	// Method for showing a new screen
 	private void showPanel(JPanel newPanel) {
 
@@ -451,7 +435,7 @@ public class PuzzleGUI extends JFrame {
 		// Initialize new panel
 		puzzle.initializePanel();
 		puzzle.getBack().addActionListener(event -> showPanel(previousPanel));
-		
+
 		// Replace the current panel
 		remove(currentPanel);
 		add(puzzle.getPanel());
