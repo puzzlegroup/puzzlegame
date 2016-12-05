@@ -53,6 +53,7 @@ public class Puzzle {
 	private long startTime;
 	private long finishTime;
 	private double totalTime;
+	private int stars;
 
 	// Declare GUI variables
 	private JPanel panel = new JPanel();
@@ -232,19 +233,67 @@ public class Puzzle {
 	}
 
 	// Method for checking user's answers
-	private int checkAnswers() {
+	private void checkAnswers() {
 
+		// Declare and initialize variables
+		int size = tables[0].getRowCount();
+		int correctAnswers = 0;
+		
+		// Create consolidated answer matrix
+		int[][][] answers = {answerMatrix1, answerMatrix2, answerMatrix3};
+		
+		// Check every value in every matrix
+		for(int i = 0; i < tables.length; i++)
+			for(int j = 0; j < size; j++)
+				for(int k = 0; k < size; k++)
+					if(answers[i][j][k] == 1 && tables[i].getValueAt(j, k).equals(" O"))
+						correctAnswers++;
+		
+		// Check number of correct answers
+		switch(correctAnswers) {
 
-		return 0;
+		case 0: case 1: case 2:
+			stars = 0;
+			break;
+
+		case 3: case 4: case 5:
+			stars = 1;
+			break;
+
+		case 6: case 7: case 8:
+			stars = 2;
+			break;
+
+		case 9: case 10: case 11:
+			stars = 3;
+			break;
+
+		case 12: case 13: case 14:
+			stars = 4;
+			break;
+
+		case 15:
+			stars = 5;
+			break;
+		
+		}
+		
 	}
 
 	// Method for restarting puzzle
 	private void restartPuzzle() {
 		
+		// Declare and initialize table size
+		int size = tables[0].getRowCount();
 		
-        
-        
-
+		// Reset every value in every table
+		for(int i = 0; i < tables.length; i++)
+			for(int j = 0; j < size; j++)
+				for(int k = 0; k < size; k++)
+					tables[i].setValueAt("", j, k);
+		
+		// Reset timer
+		startTime = System.nanoTime();
 	}
 
 	// Method for initializing puzzle screen
@@ -313,6 +362,9 @@ public class Puzzle {
         	tables[i] = newTable();
         	panel.add(tables[i]);
         }
+		
+	// Initialize tables
+	restartPuzzle();
         
         // set dimension of labels
         Dimension labelDim = new Dimension(100,30);
