@@ -34,8 +34,6 @@ public class PuzzleGUI extends JFrame {
 	private JButton back_1;
 	private JButton back_2;
 	private JButton back_3;
-	private JTextArea goal;
-	private JTextArea howTo;
 	private JButton[] areaButtons = new JButton[NUM_OF_AREAS];
 
 	// Declare and initialize screen panels
@@ -80,8 +78,8 @@ public class PuzzleGUI extends JFrame {
 		int buttonXOffset = (frameWidth / 2) - (buttonWidth / 2);
 		int buttonYOffset = 350;
 		int buttonSeperation = 10;
-		int textRows = 5;
-		int textColumns = 20;
+		//int textRows = 5;			Not sure if these are needed elsewhere. If so uncomment them
+		//int textColumns = 20;
 		Font font = new Font(null, Font.BOLD, 16);
 
 		// Declare and initialize titles
@@ -90,8 +88,6 @@ public class PuzzleGUI extends JFrame {
 		String playTitle = "Play";
 		String tutorialTitle = "Tutorial";
 		String creditsTitle = "Credits";
-		String goalTitle = "Goal\n\nThe goal is to complete each puzzle\n...time\n...stars";
-		String howToTitle = "How to play\n\nStep-by-step mini puzzle goes here";
 
 		// Declare and initialize layout variables
 		String top = SpringLayout.NORTH;
@@ -99,9 +95,36 @@ public class PuzzleGUI extends JFrame {
 		String left = SpringLayout.WEST;
 		String right = SpringLayout.EAST;
 
+		//Declare and initialize Tutorial content
+		String goalImg = "src/puzzlegame/images/goal.jpg";
+		String controlsImg = "src/puzzlegame/images/controls.jpg";
+		String exampleImg = "src/puzzlegame/images/example.jpg";
+		String clueImg_1 = "src/puzzlegame/images/clue1.jpg";
+		String clueImg_2 = "src/puzzlegame/images/clue2.jpg";
+		String clueImg_3 = "src/puzzlegame/images/clue3.jpg";
+		String clueImg_4 = "src/puzzlegame/images/clue4.jpg";
+		String crossRefImg_1 = "src/puzzlegame/images/crossRef1.jpg";
+		String crossRefImg_2 = "src/puzzlegame/images/crossRef2.jpg";
+		String refClueImg = "src/puzzlegame/images/refClue.jpg";
+		
+		JLabel goal = new JLabel(new ImageIcon(goalImg));
+		JLabel controls = new JLabel(new ImageIcon(controlsImg));
+		JLabel example = new JLabel(new ImageIcon(exampleImg));
+		JLabel clue_1 = new JLabel(new ImageIcon(clueImg_1));
+		JLabel clue_2 = new JLabel(new ImageIcon(clueImg_2));
+		JLabel clue_3 = new JLabel(new ImageIcon(clueImg_3));
+		JLabel clue_4 = new JLabel(new ImageIcon(clueImg_4));
+		JLabel crossRef_1 = new JLabel(new ImageIcon(crossRefImg_1));
+		JLabel crossRef_2 = new JLabel(new ImageIcon(crossRefImg_2));
+		JLabel refClue = new JLabel(new ImageIcon(refClueImg));
+		
+		//Declare and initialize Credits content
+		String creditsImg = "src/puzzlegame/images/credits.jpg";
+		JLabel creditsContent = new JLabel(new ImageIcon(creditsImg));
+		
 		// Declare and initialize image backgrounds
 		String introImage = "src/puzzlegame/images/space_1.jpg";
-		String genericImage = "src/puzzlegame/images/space_2.jpg";
+		String genericImage = "src/puzzlegame/images/space_3.jpg";
 		JLabel introBackground = new JLabel(new ImageIcon(introImage));
 		JLabel tutorialBackground = new JLabel(new ImageIcon(genericImage));
 		JLabel creditsBackground = new JLabel(new ImageIcon(genericImage));
@@ -250,18 +273,18 @@ public class PuzzleGUI extends JFrame {
 		back_2.setPreferredSize(buttonSize);
 		back_2.addActionListener(event -> showPanel(introPanel));
 		tutorialPanel.add(back_2);
-
-		// Create goal text area
-		goal = new JTextArea(goalTitle, textRows, textColumns);
-		goal.setEditable(false);
-		goal.setFont(font);
+		
+		// Create tutorial content areas
 		tutorialPanel.add(goal);
-
-		// Create how-to text area
-		howTo = new JTextArea(howToTitle, textRows, textColumns);
-		howTo.setEditable(false);
-		howTo.setFont(font);
-		tutorialPanel.add(howTo);
+		tutorialPanel.add(controls);
+		tutorialPanel.add(example);
+		tutorialPanel.add(clue_1);
+		tutorialPanel.add(clue_2);
+		tutorialPanel.add(clue_3);
+		tutorialPanel.add(clue_4);
+		tutorialPanel.add(crossRef_1);
+		tutorialPanel.add(refClue);
+		tutorialPanel.add(crossRef_2);
 
 		// Add background image
 		tutorialPanel.add(tutorialBackground);
@@ -271,19 +294,54 @@ public class PuzzleGUI extends JFrame {
 		layout.putConstraint(left, back_2, buttonSeperation, left, tutorialPanel);
 		layout.putConstraint(top, back_2, buttonSeperation, top, tutorialPanel);
 
-		// Constrain goal text
+		// Constrain goal area
 		layout.putConstraint(left, goal, buttonWidth, left, tutorialPanel);
-		layout.putConstraint(top, goal, buttonWidth, bottom, back_2);
+		layout.putConstraint(top, goal, buttonWidth, top, back_2);
 
-		// Constrain how-to text area
-		layout.putConstraint(left, howTo, buttonSeperation, right, goal);
-		layout.putConstraint(top, howTo, 0, top, goal);
+		// Constrain controls area
+		layout.putConstraint(left, controls, buttonSeperation, right, goal);
+		layout.putConstraint(top, controls, 0, top, goal);
+		
+		// Constrain example area
+		layout.putConstraint(left, example, buttonSeperation, right, controls);
+		layout.putConstraint(top, example, 0, top, controls);
+		
+		// Constrain clue_1 area
+		layout.putConstraint(left, clue_1, buttonSeperation, right, example);
+		layout.putConstraint(top, clue_1, 0, top, example);
+		
+		// Constrain clue_2 area
+		layout.putConstraint(left, clue_2, buttonSeperation, right, clue_1);
+		layout.putConstraint(top, clue_2, 0, top, clue_1);
+		
+		// Constrain clue_3 area
+		layout.putConstraint(left, clue_3, buttonSeperation, right, clue_2);
+		layout.putConstraint(top, clue_3, 0, top, clue_2);
+		
+		// Constrain clue_4 area
+		layout.putConstraint(left, clue_4, buttonSeperation, right, clue_3);
+		layout.putConstraint(top, clue_4, 0, top, clue_3);
+		
+		// Constrain crossRef_1 area
+		layout.putConstraint(left, crossRef_1, buttonSeperation, right, clue_4);
+		layout.putConstraint(top, crossRef_1, 0, top, clue_4);
+		
+		// Constrain refClue area
+		layout.putConstraint(left, refClue, buttonSeperation, right, crossRef_1);
+		layout.putConstraint(top, refClue, 0, top, crossRef_1);
+		
+		// Constrain crossRef_2 area
+		layout.putConstraint(left, crossRef_2, buttonSeperation, right, refClue);
+		layout.putConstraint(top, crossRef_2, 0, bottom, refClue);
 
 
 		/**
 		 * CREDITS SCREEN
 		 */
-
+		
+		//Create credits content area
+		creditsPanel.add(creditsContent);
+		
 		// Create third back button
 		back_3 = new JButton(backTitle);
 		back_3.setFont(font);
@@ -298,6 +356,10 @@ public class PuzzleGUI extends JFrame {
 		// Constraint third back button
 		layout.putConstraint(left, back_3, buttonSeperation, left, creditsPanel);
 		layout.putConstraint(top, back_3, buttonSeperation, top, creditsPanel);
+		
+		//Constrain credits content
+		layout.putConstraint(left, creditsContent, buttonSeperation, left, back_3);
+		layout.putConstraint(top, creditsContent, buttonSeperation, bottom, back_3);
 
 
 		/**
