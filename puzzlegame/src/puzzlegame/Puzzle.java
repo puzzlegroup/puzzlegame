@@ -519,6 +519,11 @@ public class Puzzle {
         layout.putConstraint(top, submit, buttonSeperation, bottom, restart);
         
 
+		
+		
+	// Start timer
+	startTime = System.nanoTime();
+		
 	}
 
 	// Method for getting puzzle screen
