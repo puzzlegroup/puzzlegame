@@ -15,6 +15,8 @@ import java.awt.event.*;
 import sun.audio.*;
 import javax.swing.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.FileInputStream;
+import java.io.InputStream;
 
 // GUI for Team Vulcan's Logic Quest game
 public class PuzzleGUI extends JFrame {

@@ -54,7 +54,8 @@ public class Puzzle {
 	private long finishTime;
 	private double totalTime;
 	private int stars;
-
+        private int hintCounter;
+        
 	// Declare GUI variables
 	private JPanel panel = new JPanel();
 	private Border border;
@@ -226,9 +227,17 @@ public class Puzzle {
 	}
 	
 	// Method for giving user a hint
-	private void giveHint() {
+	private void giveHint(JTextArea textArea) {
 
-
+            final String newline = "\n";
+            
+            // add puzzle hints to textArea
+            if(hintCounter <= hints.length-1) {
+                textArea.append(hints[hintCounter] + newline);
+                hintCounter++;
+            } else {
+                JOptionPane.showMessageDialog(null, "There are no more hints.");
+            }
 
 	}
 
@@ -327,6 +336,9 @@ public class Puzzle {
         panel.setLayout(layout);
         Dimension buttonSize = new Dimension(buttonWidth, buttonHeight);
         
+        // declare and intialize text area, scroll pane
+        JTextArea textArea = new JTextArea(17,24); // 20/27  17/24
+        JScrollPane scrollPane = new JScrollPane(textArea);
         
         
         // Create back button
@@ -339,7 +351,7 @@ public class Puzzle {
         hint = new JButton(hintTitle);
         hint.setFont(font);
         hint.setPreferredSize(buttonSize);
-        hint.addActionListener(event -> giveHint());
+        hint.addActionListener(event -> giveHint(textArea));
         panel.add(hint);
         
         // Create restart button
@@ -368,7 +380,7 @@ public class Puzzle {
         
         // set dimension of labels
         Dimension labelDim = new Dimension(100,30);
-        Dimension labelDimVert = new Dimension(32,150);
+        Dimension labelDimVert = new Dimension(32,154);
         Dimension headerDimVert = new Dimension(32,150);
         Dimension headerDim = new Dimension(160,30);
         
@@ -424,6 +436,22 @@ public class Puzzle {
         panel.add(topHeader0);
         panel.add(topHeader1);
         
+        
+        // textArea
+        textArea.setEditable(false);
+        textArea.setFont(new Font("Arial", Font.PLAIN, 16));
+        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
+        
+        // add puzzle clues to textarea
+        final String newline = "\n";
+        textArea.append(name + newline + newline);
+        textArea.append(dialog + newline + newline);
+        for(int i = 0; i < clues.length; i++) {
+            textArea.append(clues[i] + newline);
+        }
+        panel.add(scrollPane);
+        
         // Add background image
         panel.add(background);
         panel.setComponentZOrder(background, panel.getComponentCount() - 1);
@@ -478,6 +506,10 @@ public class Puzzle {
         }
         // end top labels
         
+        // Constraint scrollPane
+        layout.putConstraint(left, scrollPane, buttonSeperation, right, topJLabels[9]);
+        layout.putConstraint(top, scrollPane, buttonSeperation, top, panel);
+        
         // leftheader0
         layout.putConstraint(bottom, leftHeader0, 0 , bottom, tables[0]);
         layout.putConstraint(right, leftHeader0, 0 , left, leftJLabels[4]);
@@ -508,7 +540,7 @@ public class Puzzle {
         
         // Constrain hint button
         layout.putConstraint(left, hint, buttonSeperation*2, right, tables[2]);
-        layout.putConstraint(top, hint, buttonSeperation, top, tables[2]);
+        layout.putConstraint(top, hint, buttonSeperation*2, top, tables[2]);
         
         // Constrain restart button
         layout.putConstraint(left, restart, 0, left, hint);
