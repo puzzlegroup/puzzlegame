@@ -53,8 +53,28 @@ public class PuzzleGUI extends JFrame {
 	private JButton levelButtons[] = new JButton[puzzleNames.length];
 
 	// Declare sound wav file sources
+	private static String[] musicArray = new String[] {
+		"src/puzzlegame/Sound-Wavs/Star_Trek Famous.wav",
+		"src/puzzlegame/Sound-Wavs/Star_Trek Back.wav",
+		"src/puzzlegame/Sound-Wavs/Star_Trek Boldly Go.wav",
+		"src/puzzlegame/Sound-Wavs/Star_Trek End Credit.wav",
+		"src/puzzlegame/Sound-Wavs/Star_Trek Enterprising.wav",
+		"src/puzzlegame/Sound-Wavs/Star_Trek Hella Bar.wav",
+		"src/puzzlegame/Sound-Wavs/Star_Trek Labor Love.wav",
+		"src/puzzlegame/Sound-Wavs/Star_Trek Nailing.wav",
+		"src/puzzlegame/Sound-Wavs/Star_Trek Nero Death.wav",
+		"src/puzzlegame/Sound-Wavs/Star_Trek Nero Fiddle.wav",
+		"src/puzzlegame/Sound-Wavs/Star_Trek Nero Sighted.wav",
+		"src/puzzlegame/Sound-Wavs/Star_Trek Nice.wav",
+		"src/puzzlegame/Sound-Wavs/Star_Trek Run Shoot.wav",
+		"src/puzzlegame/Sound-Wavs/Star_Trek Sting.wav" };
+			
 	private static String introMusic = "src/puzzlegame/Sound-Wavs/Star_Trek Famous.wav";
 	private static String creditsMusic = "src/puzzlegame/Sound-Wavs/Star_Trek End Credit.wav";
+	private static String backMusic = ""src/puzzlegame/Sound-Wavs/Star_Trek Back.wav";
+	private static String boldMusic = ""src/puzzlegame/Sound-Wavs/Star_Trek Boldy Go.wav";
+	private static String enterpriseMusic = ""src/puzzlegame/Sound-Wavs/Star_Trek Enterprising.wav";
+	private static String Music = ""src/puzzlegame/Sound-Wavs/Star_Trek Back.wav";
 
 	// Main program
 	public static void main(String[] args) {
