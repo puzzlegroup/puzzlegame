@@ -62,7 +62,7 @@ public class PuzzleGUI extends JFrame {
 		// Create GUI
 		PuzzleGUI GUI = new PuzzleGUI();
 
-		playMusic(introMusic);
+		//playMusic(introMusic);
 	}
 
 	// GUI constructor
