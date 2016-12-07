@@ -11,8 +11,12 @@ package puzzlegame;
 
 // Import classes
 import java.awt.*;
+import java.awt.event.*;
+import sun.audio.*;
 import javax.swing.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.FileInputStream;
+import java.io.InputStream;
 
 // GUI for Team Vulcan's Logic Quest game
 public class PuzzleGUI extends JFrame {
@@ -32,8 +36,6 @@ public class PuzzleGUI extends JFrame {
 	private JButton back_1;
 	private JButton back_2;
 	private JButton back_3;
-	private JTextArea goal;
-	private JTextArea howTo;
 	private JButton[] areaButtons = new JButton[NUM_OF_AREAS];
 
 	// Declare and initialize screen panels
@@ -45,18 +47,38 @@ public class PuzzleGUI extends JFrame {
 	private JPanel[] areaPanels = new JPanel[NUM_OF_AREAS];
 
 	// Declare utility variables
-	private String[] areaNames = new String[NUM_OF_AREAS];
 	private String[] puzzleNames = {"Level 1", "Level 2"};
 	private String[] puzzleKeyNames = {"puzzledatatest", "a01-level01"};
 	private JButton levelButtons[] = new JButton[puzzleNames.length];
 
+	// Declare sound WAV file sources
+	private static String[] musicArray = new String[] {
+			"src/puzzlegame/Sound-Wavs/Star_Trek Back.wav",
+			"src/puzzlegame/Sound-Wavs/Star_Trek Boldly Go.wav",
+			"src/puzzlegame/Sound-Wavs/Star_Trek Enterprising.wav",
+			"src/puzzlegame/Sound-Wavs/Star_Trek Hella Bar.wav",
+			"src/puzzlegame/Sound-Wavs/Star_Trek Nailing.wav",
+			"src/puzzlegame/Sound-Wavs/Star_Trek Nero Fiddle.wav",
+			"src/puzzlegame/Sound-Wavs/Star_Trek Nero Sighted.wav",
+			"src/puzzlegame/Sound-Wavs/Star_Trek Nice.wav",
+			"src/puzzlegame/Sound-Wavs/Star_Trek Run Shoot.wav",
+	"src/puzzlegame/Sound-Wavs/Star_Trek Sting.wav" };
 
+	// Declare and initialize music streams
+	private static String introMusic = "src/puzzlegame/Sound-Wavs/Star_Trek Famous.wav";
+	private static String creditsMusic = "src/puzzlegame/Sound-Wavs/Star_Trek End Credit.wav";
+	private static String backMusic = "src/puzzlegame/Sound-Wavs/Star_Trek Back.wav";
+	private static String boldMusic = "src/puzzlegame/Sound-Wavs/Star_Trek Boldy Go.wav";
+	private static String enterpriseMusic = "src/puzzlegame/Sound-Wavs/Star_Trek Enterprising.wav";
+	private static String Music = "src/puzzlegame/Sound-Wavs/Star_Trek Back.wav";
 
 	// Main program
 	public static void main(String[] args) {
 
 		// Create GUI
 		PuzzleGUI GUI = new PuzzleGUI();
+
+		//playMusic(introMusic);
 	}
 
 	// GUI constructor
@@ -69,14 +91,14 @@ public class PuzzleGUI extends JFrame {
 		// Declare and initialize frame variables
 		int frameWidth = 800;
 		int frameHeight = 600;
+		int areaWidth = 50;
+		int areaHeight = 50;
 		int buttonWidth = 120;
 		int buttonHeight = 35;
 		int buttonXOffset = (frameWidth / 2) - (buttonWidth / 2);
 		int buttonYOffset = 350;
 		int buttonSeperation = 10;
-		int textRows = 5;
-		int textColumns = 20;
-		Font font = new Font(null, Font.BOLD, 16);
+		Font font = new Font(null, Font.BOLD, 20);
 
 		// Declare and initialize titles
 		String mainTitle = "Logic Quest";
@@ -95,13 +117,19 @@ public class PuzzleGUI extends JFrame {
 
 		// Declare and initialize image backgrounds
 		String introImage = "src/puzzlegame/images/space_1.jpg";
-		String genericImage = "src/puzzlegame/images/space_2.jpg";
+		String mapImage = "src/puzzlegame/images/map.jpg";
+		String area1Image = "src/puzzlegame/images/area1.jpg";
+		String[] tutorialImages = {"goalImg","exampleImg","clueImg_1","clueImg_2",
+				"clueImg_3","clueImg_4","crossRefImg_1","crossRefImg_2","refClueImg","controlsImg"};
+		String creditsImage = "src/puzzlegame/images/credits.jpg";
 		JLabel introBackground = new JLabel(new ImageIcon(introImage));
-		JLabel tutorialBackground = new JLabel(new ImageIcon(genericImage));
-		JLabel creditsBackground = new JLabel(new ImageIcon(genericImage));
+		JLabel mapBackground = new JLabel(new ImageIcon(mapImage));
+		JLabel area1Background = new JLabel(new ImageIcon(area1Image));
+		JLabel creditsBackground = new JLabel(new ImageIcon(creditsImage));
 
 		// Customize GUI elements
 		Dimension buttonSize = new Dimension(buttonWidth, buttonHeight);
+		Dimension areaSize = new Dimension(areaWidth, areaHeight);
 		SpringLayout layout = new SpringLayout();
 		introPanel.setLayout(layout);
 		mapPanel.setLayout(layout);
@@ -124,21 +152,42 @@ public class PuzzleGUI extends JFrame {
 		 */
 
 		// Create play button
+		ImageIcon playIcon = (new ImageIcon(getClass().getClassLoader().getResource("nebula.jpg")));
+                Image img = playIcon.getImage();
+                Image playImg = img.getScaledInstance(buttonWidth,buttonHeight,  java.awt.Image.SCALE_SMOOTH);
+                ImageIcon playIcon2 = new ImageIcon(playImg);
 		play = new JButton(playTitle);
+                play.setIcon(playIcon2);
+                play.setHorizontalTextPosition(JButton.CENTER);
+                play.setVerticalTextPosition(JButton.CENTER);
 		play.setFont(font);
 		play.setPreferredSize(buttonSize);
 		play.addActionListener(event -> showPanel(mapPanel));
-		introPanel.add(play);
+		introPanel.add(play); 
 
 		// Create tutorial button
+		ImageIcon tutorialIcon = (new ImageIcon(getClass().getClassLoader().getResource("galaxy-venture.jpg")));
+                Image tutorialImg = tutorialIcon.getImage();
+                Image tutorialImg2 = tutorialImg.getScaledInstance(buttonWidth,buttonHeight,  java.awt.Image.SCALE_SMOOTH);
+                ImageIcon tutorialIcon2 = new ImageIcon(tutorialImg2);
 		tutorial = new JButton(tutorialTitle);
+                tutorial.setIcon(tutorialIcon2);
+                tutorial.setHorizontalTextPosition(JButton.CENTER);
+                tutorial.setVerticalTextPosition(JButton.CENTER);
 		tutorial.setFont(font);
 		tutorial.setPreferredSize(buttonSize);
 		tutorial.addActionListener(event -> showPanel(tutorialPanel));
 		introPanel.add(tutorial);
 
 		// Create credits button
+		ImageIcon creditsIcon = (new ImageIcon(getClass().getClassLoader().getResource("quantum-class-13.jpg")));
+                Image creditsImg = creditsIcon.getImage();
+                Image creditsImg2 = creditsImg.getScaledInstance(buttonWidth,buttonHeight,  java.awt.Image.SCALE_SMOOTH);
+                ImageIcon creditsIcon2 = new ImageIcon(creditsImg2);
 		credits = new JButton(creditsTitle);
+                credits.setIcon(creditsIcon2);
+                credits.setHorizontalTextPosition(JButton.CENTER);
+                credits.setVerticalTextPosition(JButton.CENTER);
 		credits.setFont(font);
 		credits.setPreferredSize(buttonSize);
 		credits.addActionListener(event -> showPanel(creditsPanel));
@@ -166,7 +215,14 @@ public class PuzzleGUI extends JFrame {
 		 */
 
 		// Create first back button
+		ImageIcon backIcon = (new ImageIcon(getClass().getClassLoader().getResource("voyager-side.png")));
+                Image backImg = backIcon.getImage();
+                Image backImg2 = backImg.getScaledInstance(buttonWidth,buttonHeight,  java.awt.Image.SCALE_SMOOTH);
+                ImageIcon backIcon2 = new ImageIcon(backImg2);
 		back_1 = new JButton(backTitle);
+                back_1.setIcon(backIcon2);
+                back_1.setHorizontalTextPosition(JButton.CENTER);
+                back_1.setVerticalTextPosition(JButton.CENTER);
 		back_1.setFont(font);
 		back_1.setPreferredSize(buttonSize);
 		back_1.addActionListener(event -> showPanel(introPanel));
@@ -179,23 +235,28 @@ public class PuzzleGUI extends JFrame {
 			final int areaIndex = i;
 
 			// Create formatted area button
-			areaNames[i] = "Area " + (i + 1);
-			areaButtons[i] = new JButton(areaNames[i]);
+			areaButtons[i] = new JButton();
 			areaButtons[i].setFont(font);
-			areaButtons[i].setPreferredSize(buttonSize);
+			areaButtons[i].setPreferredSize(areaSize);
+			areaButtons[i].setOpaque(false);
+			areaButtons[i].setContentAreaFilled(false);
 			areaButtons[i].addActionListener(event -> showArea(areaIndex));
+			
+			// Add area button
+			mapPanel.add(areaButtons[i]);
 		}
-
-		// Add first area button
-		mapPanel.add(areaButtons[0]);
+		
+		// Add background image
+		mapPanel.add(mapBackground);
+		mapPanel.setComponentZOrder(mapBackground, mapPanel.getComponentCount() - 1);
 
 		// Constraint first back button
 		layout.putConstraint(left, back_1, buttonSeperation, left, mapPanel);
 		layout.putConstraint(top, back_1, buttonSeperation, top, mapPanel);
 
 		// Constrain first area button
-		layout.putConstraint(left, areaButtons[0], buttonWidth, left, mapPanel);
-		layout.putConstraint(top, areaButtons[0], buttonWidth, top, mapPanel);
+		layout.putConstraint(left, areaButtons[0], 53, left, mapPanel);
+		layout.putConstraint(top, areaButtons[0], 292, top, mapPanel);
 
 
 		/**
@@ -218,20 +279,32 @@ public class PuzzleGUI extends JFrame {
 			// Create formatted level button
 			levelButtons[i] = new JButton(puzzleNames[i]);
 			levelButtons[i].setFont(font);
+			levelButtons[i].setOpaque(false);
+			levelButtons[i].setContentAreaFilled(false);
+			levelButtons[i].setForeground(Color.WHITE);
 			levelButtons[i].setPreferredSize(buttonSize);
 			levelButtons[i].addActionListener(event ->
 			showPuzzle(puzzleKeyNames[levelIndex], areaPanels[levelIndex]));
+			
+			// Add level button
+			areaPanels[0].add(levelButtons[i]);
 		}
 
-		areaPanels[0].add(levelButtons[0]);
-
+		// Add background image
+		areaPanels[0].add(area1Background);
+		areaPanels[0].setComponentZOrder(area1Background, areaPanels[0].getComponentCount() - 1);
+		
 		// Constraint back button
 		layout.putConstraint(left, map, buttonSeperation, left, areaPanels[0]);
 		layout.putConstraint(top, map, buttonSeperation, top, areaPanels[0]);
 
-		// Constrain level button
-		layout.putConstraint(left, levelButtons[0], buttonWidth, left, areaPanels[0]);
-		layout.putConstraint(top, levelButtons[0], buttonWidth, top, areaPanels[0]);
+		// Constrain first level button
+		layout.putConstraint(left, levelButtons[0], 370, left, areaPanels[0]);
+		layout.putConstraint(top, levelButtons[0], 150, top, areaPanels[0]);
+		
+		// Constrain second level button
+		layout.putConstraint(left, levelButtons[1], 430, left, areaPanels[0]);
+		layout.putConstraint(top, levelButtons[1], 430, top, areaPanels[0]);
 
 
 		/**
@@ -240,38 +313,111 @@ public class PuzzleGUI extends JFrame {
 
 		// Create second back button
 		back_2 = new JButton(backTitle);
+                back_2.setIcon(backIcon2);
+                back_2.setHorizontalTextPosition(JButton.CENTER);
+                back_2.setVerticalTextPosition(JButton.CENTER);
 		back_2.setFont(font);
 		back_2.setPreferredSize(buttonSize);
 		back_2.addActionListener(event -> showPanel(introPanel));
 		tutorialPanel.add(back_2);
 
-		// Create goal text area
-		goal = new JTextArea(goalTitle, textRows, textColumns);
-		goal.setEditable(false);
-		goal.setFont(font);
-		tutorialPanel.add(goal);
-
-		// Create how-to text area
-		howTo = new JTextArea(howToTitle, textRows, textColumns);
-		howTo.setEditable(false);
-		howTo.setFont(font);
-		tutorialPanel.add(howTo);
-
-		// Add background image
-		tutorialPanel.add(tutorialBackground);
-		tutorialPanel.setComponentZOrder(tutorialBackground, tutorialPanel.getComponentCount() - 1);
-
 		// Constrain second back button
 		layout.putConstraint(left, back_2, buttonSeperation, left, tutorialPanel);
 		layout.putConstraint(top, back_2, buttonSeperation, top, tutorialPanel);
 
-		// Constrain goal text
-		layout.putConstraint(left, goal, buttonWidth, left, tutorialPanel);
-		layout.putConstraint(top, goal, buttonWidth, bottom, back_2);
+		// Create first info label
+		String infoTitle_1 = " Left click to go left      ";
+		JLabel info_1 = new JLabel(infoTitle_1);
+		info_1.setOpaque(true);
+		info_1.setBackground(Color.LIGHT_GRAY);
+		tutorialPanel.add(info_1);
+		
+		// Create second info label
+		String infoTitle_2 = " Right click to go right ";
+		JLabel info_2 = new JLabel(infoTitle_2);
+		info_2.setOpaque(true);
+		info_2.setBackground(Color.LIGHT_GRAY);
+		tutorialPanel.add(info_2);
+		
+		// Constrain first info label
+		layout.putConstraint(left, info_1, 0, left, back_2);
+		layout.putConstraint(top, info_1, buttonSeperation, bottom, back_2);
+		
+		// Constrain second info label
+		layout.putConstraint(left, info_2, 0, left, back_2);
+		layout.putConstraint(top, info_2, 0, bottom, info_1);
+		
+		// Declare image array
+		String source = "src/puzzlegame/images/";
+		String type = ".jpg";
+		JLabel[] tutorialBackgrounds = new JLabel[tutorialImages.length];
 
-		// Constrain how-to text area
-		layout.putConstraint(left, howTo, buttonSeperation, right, goal);
-		layout.putConstraint(top, howTo, 0, top, goal);
+		// Create 
+		for(int i = 0; i < tutorialImages.length; i++)
+			tutorialBackgrounds[i] = new JLabel(new ImageIcon(source + tutorialImages[i] + type));
+
+		// Add background image
+		tutorialPanel.add(tutorialBackgrounds[0]);
+		tutorialPanel.setComponentZOrder(tutorialBackgrounds[0], tutorialPanel.getComponentCount() - 1);
+
+		// Add mouse listener to handle clicks for tutorial viewing
+		tutorialPanel.addMouseListener(new MouseAdapter() {
+
+			// Declare and initialize index variable
+			int currentIndex = 0;
+
+			// Create mouse click method
+			public void mouseClicked(MouseEvent event) {
+
+				// Check mouse button
+				switch(event.getButton()) {
+
+				// Go left an image if left clicked
+				case 1:
+
+					// Check if user is at first image
+					if(currentIndex == 0)
+						return;
+
+					// Replace background image
+					tutorialPanel.remove(tutorialBackgrounds[currentIndex]);
+					tutorialPanel.add(tutorialBackgrounds[currentIndex - 1]);
+					tutorialPanel.setComponentZOrder(tutorialBackgrounds[currentIndex - 1],
+							tutorialPanel.getComponentCount() - 1);
+
+					// Update current index
+					currentIndex--;			
+
+					break;
+
+				case 3:
+
+					// Check if user is at last image
+					if(currentIndex == tutorialImages.length - 1)
+						return;
+
+					// Replace background image
+					tutorialPanel.remove(tutorialBackgrounds[currentIndex]);
+					tutorialPanel.add(tutorialBackgrounds[currentIndex + 1]);
+					tutorialPanel.setComponentZOrder(tutorialBackgrounds[currentIndex + 1],
+							tutorialPanel.getComponentCount() - 1);
+
+					// Update current index
+					currentIndex++;	
+
+					break;
+
+				default:
+					break;
+				}
+
+				// Reconfigure screen
+				tutorialPanel.validate();
+				tutorialPanel.repaint();
+
+			}
+
+		});
 
 
 		/**
@@ -280,6 +426,9 @@ public class PuzzleGUI extends JFrame {
 
 		// Create third back button
 		back_3 = new JButton(backTitle);
+                back_3.setIcon(backIcon2);
+                back_3.setHorizontalTextPosition(JButton.CENTER);
+                back_3.setVerticalTextPosition(JButton.CENTER);
 		back_3.setFont(font);
 		back_3.setPreferredSize(buttonSize);
 		back_3.addActionListener(event -> showPanel(introPanel));
@@ -310,6 +459,25 @@ public class PuzzleGUI extends JFrame {
 	/**
 	 * METHODS
 	 */
+
+	// Method for playing background music
+	private static void playMusic(String string) {
+
+		AudioPlayer MGP = AudioPlayer.player;
+		AudioStream BGM;
+		//AudioData MD;
+		//ContinuousAudioDataStream loop = null;
+
+		try {
+			InputStream file = new FileInputStream(string);
+			BGM = new AudioStream(file);
+			AudioPlayer.player.start(BGM);
+			//MD = BGM.getData();
+			//loop = new ContinuousAudioDataStream(MD);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	// Method for showing a new screen
 	private void showPanel(JPanel newPanel) {
@@ -364,7 +532,7 @@ public class PuzzleGUI extends JFrame {
 		// Initialize new panel
 		puzzle.initializePanel();
 		puzzle.getBack().addActionListener(event -> showPanel(previousPanel));
-		
+
 		// Replace the current panel
 		remove(currentPanel);
 		add(puzzle.getPanel());
