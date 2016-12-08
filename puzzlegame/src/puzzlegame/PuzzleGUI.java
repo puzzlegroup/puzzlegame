@@ -12,11 +12,18 @@ package puzzlegame;
 // Import classes
 import java.awt.*;
 import java.awt.event.*;
-import sun.audio.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.FileInputStream;
-import java.io.InputStream;
 
 // GUI for Team Vulcan's Logic Quest game
 public class PuzzleGUI extends JFrame {
@@ -37,6 +44,8 @@ public class PuzzleGUI extends JFrame {
 	private JButton back_2;
 	private JButton back_3;
 	private JButton[] areaButtons = new JButton[NUM_OF_AREAS];
+	private JButton mute;
+	private JButton newSong;
 
 	// Declare and initialize screen panels
 	private JPanel currentPanel;
@@ -50,11 +59,16 @@ public class PuzzleGUI extends JFrame {
 	private String[] puzzleNames = {"Level 1", "Level 2"};
 	private String[] puzzleKeyNames = {"puzzledatatest", "a01-level01"};
 	private JButton levelButtons[] = new JButton[puzzleNames.length];
+	
+	// Declare sound variables
+	private static Clip clip = null;
+	private static AudioInputStream ais = null;	
+	private static long durationInSeconds;
 
 	// Declare sound WAV file sources
 	private static String[] musicArray = new String[] {
 			"src/puzzlegame/Sound-Wavs/Star_Trek Back.wav",
-			"src/puzzlegame/Sound-Wavs/Star_Trek Boldly Go.wav",
+			"src/puzzlegame/Sound-Wavs/Star_Trek Famous.wav",
 			"src/puzzlegame/Sound-Wavs/Star_Trek Enterprising.wav",
 			"src/puzzlegame/Sound-Wavs/Star_Trek Hella Bar.wav",
 			"src/puzzlegame/Sound-Wavs/Star_Trek Nailing.wav",
@@ -62,23 +76,16 @@ public class PuzzleGUI extends JFrame {
 			"src/puzzlegame/Sound-Wavs/Star_Trek Nero Sighted.wav",
 			"src/puzzlegame/Sound-Wavs/Star_Trek Nice.wav",
 			"src/puzzlegame/Sound-Wavs/Star_Trek Run Shoot.wav",
-	"src/puzzlegame/Sound-Wavs/Star_Trek Sting.wav" };
-
-	// Declare and initialize music streams
-	private static String introMusic = "src/puzzlegame/Sound-Wavs/Star_Trek Famous.wav";
-	private static String creditsMusic = "src/puzzlegame/Sound-Wavs/Star_Trek End Credit.wav";
-	private static String backMusic = "src/puzzlegame/Sound-Wavs/Star_Trek Back.wav";
-	private static String boldMusic = "src/puzzlegame/Sound-Wavs/Star_Trek Boldy Go.wav";
-	private static String enterpriseMusic = "src/puzzlegame/Sound-Wavs/Star_Trek Enterprising.wav";
-	private static String Music = "src/puzzlegame/Sound-Wavs/Star_Trek Back.wav";
+			"src/puzzlegame/Sound-Wavs/Star_Trek Sting.wav" };
 
 	// Main program
 	public static void main(String[] args) {
 
 		// Create GUI
-		PuzzleGUI GUI = new PuzzleGUI();
+		PuzzleGUI GUI = new LatestPuzzleGUI();
 
-		//playMusic(introMusic);
+		// Create PuzzleSound
+		playMusic();
 	}
 
 	// GUI constructor
@@ -108,6 +115,8 @@ public class PuzzleGUI extends JFrame {
 		String creditsTitle = "Credits";
 		String goalTitle = "Goal\n\nThe goal is to complete each puzzle\n...time\n...stars";
 		String howToTitle = "How to play\n\nStep-by-step mini puzzle goes here";
+		String muteTitle = "Mute";
+		String newSongTitle = "New Song";
 
 		// Declare and initialize layout variables
 		String top = SpringLayout.NORTH;
@@ -145,7 +154,25 @@ public class PuzzleGUI extends JFrame {
 		setSize(frameWidth, frameHeight);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+		
+		// Declare and initialize sound variables and files
+		String random = (musicArray[new Random().nextInt(musicArray.length)]);
+		File file = new File(random);			
+				
+		try {			
+			clip = AudioSystem.getClip();
+			// getAudioInputStream() also accepts a File or InputStream
+			ais = AudioSystem.getAudioInputStream(file);
+					
+				
+					
+		} catch (UnsupportedAudioFileException ex) {
+			Logger.getLogger(PuzzleSound2.class.getName()).log(Level.SEVERE, null, ex);
+		} catch (IOException ex) {
+			Logger.getLogger(PuzzleSound2.class.getName()).log(Level.SEVERE, null, ex);
+		} catch (LineUnavailableException ex) {
+			Logger.getLogger(PuzzleSound2.class.getName()).log(Level.SEVERE, null, ex);
+		}	
 
 		/**
 		 * INTRO SCREEN
@@ -171,7 +198,21 @@ public class PuzzleGUI extends JFrame {
 		credits.setPreferredSize(buttonSize);
 		credits.addActionListener(event -> showPanel(creditsPanel));
 		introPanel.add(credits);
+		
+		// Create intro mute button
+		mute = new JButton(muteTitle);
+		mute.setFont(font);
+		mute.setPreferredSize(buttonSize);
+		mute.addActionListener(event -> stopMusic());	
+		introPanel.add(mute);
 
+		// Create new song button
+		newSong = new JButton(newSongTitle);
+		newSong.setFont(font);
+		newSong.setPreferredSize(buttonSize);
+		newSong.addActionListener(event -> newMusic());
+		introPanel.add(newSong);
+				
 		// Add background image
 		introPanel.add(introBackground);
 		introPanel.setComponentZOrder(introBackground, introPanel.getComponentCount() - 1);
@@ -187,7 +228,14 @@ public class PuzzleGUI extends JFrame {
 		// Constrain credits button
 		layout.putConstraint(left, credits, 0, left, play);
 		layout.putConstraint(top, credits, buttonSeperation, bottom, tutorial);
-
+		
+		// Constrain mute button
+		layout.putConstraint(left, mute, buttonSeperation, left, introPanel);
+		layout.putConstraint(bottom, mute, -buttonSeperation, bottom, introPanel);
+		
+		// Constrain new song button
+		layout.putConstraint(left, newSong, buttonSeperation, right, mute);
+		layout.putConstraint(bottom, newSong, -buttonSeperation, bottom, introPanel);
 
 		/**
 		 * MAP SCREEN
@@ -199,6 +247,20 @@ public class PuzzleGUI extends JFrame {
 		back_1.setPreferredSize(buttonSize);
 		back_1.addActionListener(event -> showPanel(introPanel));
 		mapPanel.add(back_1);
+		
+		// Create map mute button
+		mute = new JButton(muteTitle);
+		mute.setFont(font);
+		mute.setPreferredSize(buttonSize);
+		mute.addActionListener(event -> stopMusic());	
+		mapPanel.add(mute);
+		
+		// Create new song button
+		newSong = new JButton(newSongTitle);
+		newSong.setFont(font);
+		newSong.setPreferredSize(buttonSize);
+		newSong.addActionListener(event -> newMusic());
+		mapPanel.add(newSong);		
 
 		// Create area buttons
 		for (int i = 0; i < NUM_OF_AREAS; i++) {
@@ -225,6 +287,14 @@ public class PuzzleGUI extends JFrame {
 		// Constraint first back button
 		layout.putConstraint(left, back_1, buttonSeperation, left, mapPanel);
 		layout.putConstraint(top, back_1, buttonSeperation, top, mapPanel);
+		
+		// Constrain map screen mute button
+		layout.putConstraint(left, mute, buttonSeperation, left, mapPanel);
+		layout.putConstraint(bottom, mute, -buttonSeperation, bottom, mapPanel);
+		
+		// Constrain new song button
+		layout.putConstraint(left, newSong, buttonSeperation, right, mute);
+		layout.putConstraint(bottom, newSong, -buttonSeperation, bottom, mapPanel);
 
 		// Constrain first area button
 		layout.putConstraint(left, areaButtons[0], 53, left, mapPanel);
@@ -241,6 +311,20 @@ public class PuzzleGUI extends JFrame {
 		map.setPreferredSize(buttonSize);
 		map.addActionListener(event -> showPanel(mapPanel));
 		areaPanels[0].add(map);
+		
+		// Create area mute button
+		mute = new JButton(muteTitle);
+		mute.setFont(font);
+		mute.setPreferredSize(buttonSize);
+		mute.addActionListener(event -> stopMusic());	
+		areaPanels[0].add(mute);
+		
+		// Create new song button
+		newSong = new JButton(newSongTitle);
+		newSong.setFont(font);
+		newSong.setPreferredSize(buttonSize);
+		newSong.addActionListener(event -> newMusic());
+		areaPanels[0].add(newSong);
 
 		// Create level buttons
 		for (int i = 0; i < levelButtons.length; i++) {
@@ -269,6 +353,14 @@ public class PuzzleGUI extends JFrame {
 		// Constraint back button
 		layout.putConstraint(left, map, buttonSeperation, left, areaPanels[0]);
 		layout.putConstraint(top, map, buttonSeperation, top, areaPanels[0]);
+		
+		// Constrain areas mute button
+		layout.putConstraint(left, mute, buttonSeperation, left, mapPanel);
+		layout.putConstraint(bottom, mute, -buttonSeperation, bottom, mapPanel);
+		
+		// Constrain new song button
+		layout.putConstraint(left, newSong, buttonSeperation, right, mute);
+		layout.putConstraint(bottom, newSong, -buttonSeperation, bottom, areaPanels[0]);
 
 		// Constrain first level button
 		layout.putConstraint(left, levelButtons[0], 370, left, areaPanels[0]);
@@ -289,10 +381,32 @@ public class PuzzleGUI extends JFrame {
 		back_2.setPreferredSize(buttonSize);
 		back_2.addActionListener(event -> showPanel(introPanel));
 		tutorialPanel.add(back_2);
+		
+		// Create tutorial mute button
+		mute = new JButton(muteTitle);
+		mute.setFont(font);
+		mute.setPreferredSize(buttonSize);
+		mute.addActionListener(event -> stopMusic());	
+		tutorialPanel.add(mute);
+		
+		// Create new song button
+		newSong = new JButton(newSongTitle);
+		newSong.setFont(font);
+		newSong.setPreferredSize(buttonSize);
+		newSong.addActionListener(event -> newMusic());
+		tutorialPanel.add(newSong);
 
 		// Constrain second back button
 		layout.putConstraint(left, back_2, buttonSeperation, left, tutorialPanel);
 		layout.putConstraint(top, back_2, buttonSeperation, top, tutorialPanel);
+		
+		// Constrain tutorial mute button
+		layout.putConstraint(left, mute, buttonSeperation, left, tutorialPanel);
+		layout.putConstraint(bottom, mute, -buttonSeperation, bottom, tutorialPanel);
+		
+		// Constrain new song button
+		layout.putConstraint(left, newSong, buttonSeperation, right, mute);
+		layout.putConstraint(bottom, newSong, -buttonSeperation, bottom, tutorialPanel);
 
 		// Create first info label
 		String infoTitle_1 = " Left click to go left      ";
@@ -399,6 +513,20 @@ public class PuzzleGUI extends JFrame {
 		back_3.setPreferredSize(buttonSize);
 		back_3.addActionListener(event -> showPanel(introPanel));
 		creditsPanel.add(back_3);
+		
+		// Create credits mute button
+		mute = new JButton(muteTitle);
+		mute.setFont(font);
+		mute.setPreferredSize(buttonSize);
+		mute.addActionListener(event -> stopMusic());	
+		creditsPanel.add(mute);
+		
+		// Create new song button
+		newSong = new JButton(newSongTitle);
+		newSong.setFont(font);
+		newSong.setPreferredSize(buttonSize);
+		newSong.addActionListener(event -> newMusic());
+		creditsPanel.add(newSong);
 
 		// Add background image
 		creditsPanel.add(creditsBackground);
@@ -407,7 +535,14 @@ public class PuzzleGUI extends JFrame {
 		// Constraint third back button
 		layout.putConstraint(left, back_3, buttonSeperation, left, creditsPanel);
 		layout.putConstraint(top, back_3, buttonSeperation, top, creditsPanel);
-
+		
+		// Constrain credits mute button
+		layout.putConstraint(left, mute, buttonSeperation, left, creditsPanel);
+		layout.putConstraint(bottom, mute, -buttonSeperation, bottom, creditsPanel);
+		
+		// Constrain new song button
+		layout.putConstraint(left, newSong, buttonSeperation, right, mute);
+		layout.putConstraint(bottom, newSong, -buttonSeperation, bottom, creditsPanel);
 
 		/**
 		 * GUI INITIALIZATION
@@ -425,25 +560,6 @@ public class PuzzleGUI extends JFrame {
 	/**
 	 * METHODS
 	 */
-
-	// Method for playing background music
-	private static void playMusic(String string) {
-
-		AudioPlayer MGP = AudioPlayer.player;
-		AudioStream BGM;
-		//AudioData MD;
-		//ContinuousAudioDataStream loop = null;
-
-		try {
-			InputStream file = new FileInputStream(string);
-			BGM = new AudioStream(file);
-			AudioPlayer.player.start(BGM);
-			//MD = BGM.getData();
-			//loop = new ContinuousAudioDataStream(MD);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 
 	// Method for showing a new screen
 	private void showPanel(JPanel newPanel) {
@@ -502,11 +618,59 @@ public class PuzzleGUI extends JFrame {
 		// Replace the current panel
 		remove(currentPanel);
 		add(puzzle.getPanel());
-		currentPanel = puzzle.getPanel();
-
-		// Reconfigure screen
-		validate();
-		repaint();
+		currentPanel = puzzle.getPanel();	
 	}
-
+	
+	// Methods for playing background music
+	public static void playMusic() {			
+	
+		String random = (musicArray[new Random().nextInt(musicArray.length)]);
+		File file = new File(random);			
+				
+		try {			
+			clip = AudioSystem.getClip();
+			// getAudioInputStream() also accepts a File or InputStream
+			ais = AudioSystem.getAudioInputStream(file);
+					
+			// calculate duration of clip
+			javax.sound.sampled.AudioFormat format = ais.getFormat();
+			long audioFileLength = file.length();
+			int frameSize = format.getFrameSize();
+			long frameRate = (long) format.getFrameRate();
+			long durationInSeconds = (audioFileLength / (frameSize * frameRate));
+			System.out.println("Clip length is " + durationInSeconds + " seconds.");
+			System.out.println(file.getName());
+					
+		} catch (UnsupportedAudioFileException ex) {
+			Logger.getLogger(PuzzleSound2.class.getName()).log(Level.SEVERE, null, ex);
+		} catch (IOException ex) {
+			Logger.getLogger(PuzzleSound2.class.getName()).log(Level.SEVERE, null, ex);
+		} catch (LineUnavailableException ex) {
+			Logger.getLogger(PuzzleSound2.class.getName()).log(Level.SEVERE, null, ex);
+		}	
+			
+		try {					
+			clip.open(ais);
+			clip.loop(Clip.LOOP_CONTINUOUSLY);			
+			Thread.sleep(durationInSeconds*1000);						
+								
+		} catch (IOException ex) {
+			Logger.getLogger(PuzzleSound2.class.getName()).log(Level.SEVERE, null, ex);
+		} catch (LineUnavailableException ex) {
+			Logger.getLogger(PuzzleSound2.class.getName()).log(Level.SEVERE, null, ex);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}			
+	}
+		
+	public void stopMusic() {
+		clip.stop();
+		clip.close();	
+	}
+	
+	public void newMusic() {
+		clip.stop();
+		clip.close();
+		playMusic();
+	}
 }
