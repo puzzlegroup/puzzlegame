@@ -252,18 +252,18 @@ public class PuzzleGUI extends JFrame {
 		mapPanel.add(back_1);
 		
 		// Create map mute button
-		////mute = new JButton(muteTitle);
-		////mute.setFont(font);
-		////mute.setPreferredSize(buttonSize);
-		////mute.addActionListener(event -> stopMusic());	
-		////mapPanel.add(mute);
+		mute = new JButton(muteTitle);
+		mute.setFont(font);
+		mute.setPreferredSize(buttonSize);
+		mute.addActionListener(event -> stopMusic());	
+		mapPanel.add(mute);
 		
 		// Create new song button
-		////newSong = new JButton(newSongTitle);
-		////newSong.setFont(font);
-		////newSong.setPreferredSize(buttonSize);
-		////newSong.addActionListener(event -> newMusic());
-		////mapPanel.add(newSong);		
+		newSong = new JButton(newSongTitle);
+		newSong.setFont(font);
+		newSong.setPreferredSize(buttonSize);
+		newSong.addActionListener(event -> newMusic());
+		mapPanel.add(newSong);		
 
 		// Create area buttons
 		for (int i = 0; i < NUM_OF_AREAS; i++) {
@@ -292,12 +292,12 @@ public class PuzzleGUI extends JFrame {
 		layout.putConstraint(top, back_1, buttonSeperation, top, mapPanel);
 		
 		// Constrain map screen mute button
-		////layout.putConstraint(left, mute, buttonSeperation, left, mapPanel);
-		////layout.putConstraint(bottom, mute, -buttonSeperation, bottom, mapPanel);
+		layout.putConstraint(left, mute, buttonSeperation, left, mapPanel);
+		layout.putConstraint(bottom, mute, -buttonSeperation, bottom, mapPanel);
 		
-		// Constrain new song button
-		////layout.putConstraint(left, newSong, buttonSeperation, right, mute);
-		////layout.putConstraint(bottom, newSong, -buttonSeperation, bottom, mapPanel);
+		// Constrain map screen new song button
+		layout.putConstraint(left, newSong, buttonSeperation, right, mute);
+		layout.putConstraint(bottom, newSong, -buttonSeperation, bottom, mapPanel);
 
 		// Constrain first area button
 		layout.putConstraint(left, areaButtons[0], 53, left, mapPanel);
@@ -316,18 +316,18 @@ public class PuzzleGUI extends JFrame {
 		areaPanels[0].add(map);
 		
 		// Create area mute button
-		////mute = new JButton(muteTitle);
-		////mute.setFont(font);
-		////mute.setPreferredSize(buttonSize);
-		////mute.addActionListener(event -> stopMusic());	
-		////areaPanels[0].add(mute);
+		mute = new JButton(muteTitle);
+		mute.setFont(font);
+		mute.setPreferredSize(buttonSize);
+		mute.addActionListener(event -> stopMusic());	
+		areaPanels[0].add(mute);
 		
 		// Create new song button
-		////newSong = new JButton(newSongTitle);
-		////newSong.setFont(font);
-		////newSong.setPreferredSize(buttonSize);
-		////newSong.addActionListener(event -> newMusic());
-		////areaPanels[0].add(newSong);
+		newSong = new JButton(newSongTitle);
+		newSong.setFont(font);
+		newSong.setPreferredSize(buttonSize);
+		newSong.addActionListener(event -> newMusic());
+		areaPanels[0].add(newSong);
 
 		// Create level buttons
 		for (int i = 0; i < levelButtons.length; i++) {
@@ -374,12 +374,12 @@ public class PuzzleGUI extends JFrame {
 		layout.putConstraint(top, map, buttonSeperation, top, areaPanels[0]);
 		
 		// Constrain areas mute button
-		////layout.putConstraint(left, mute, buttonSeperation, left, areaPanels[0]);
-		////layout.putConstraint(bottom, mute, -buttonSeperation, bottom, areaPanels[0]);
+		layout.putConstraint(left, mute, buttonSeperation, left, areaPanels[0]);
+		layout.putConstraint(bottom, mute, -buttonSeperation, bottom, areaPanels[0]);
 		
 		// Constrain new song button
-		////layout.putConstraint(left, newSong, buttonSeperation, right, mute);
-		////layout.putConstraint(bottom, newSong, -buttonSeperation, bottom, areaPanels[0]);
+		layout.putConstraint(left, newSong, buttonSeperation, right, mute);
+		layout.putConstraint(bottom, newSong, -buttonSeperation, bottom, areaPanels[0]);
 
 		// Constrain first level button
 		layout.putConstraint(left, levelButtons[0], 370, left, areaPanels[0]);
@@ -427,7 +427,7 @@ public class PuzzleGUI extends JFrame {
 		////mute.addActionListener(event -> stopMusic());	
 		////tutorialPanel.add(mute);
 		
-		// Create new song button
+		// Create tutorial new song button
 		////newSong = new JButton(newSongTitle);
 		////newSong.setFont(font);
 		////newSong.setPreferredSize(buttonSize);
@@ -442,7 +442,7 @@ public class PuzzleGUI extends JFrame {
 		////layout.putConstraint(left, mute, buttonSeperation, left, tutorialPanel);
 		////layout.putConstraint(bottom, mute, -buttonSeperation, bottom, tutorialPanel);
 		
-		// Constrain new song button
+		// Constrain tutorial new song button
 		////layout.putConstraint(left, newSong, buttonSeperation, right, mute);
 		////layout.putConstraint(bottom, newSong, -buttonSeperation, bottom, tutorialPanel);
 
@@ -559,7 +559,7 @@ public class PuzzleGUI extends JFrame {
 		////mute.addActionListener(event -> stopMusic());	
 		////creditsPanel.add(mute);
 		
-		// Create new song button
+		// Create credits new song button
 		////newSong = new JButton(newSongTitle);
 		////newSong.setFont(font);
 		////newSong.setPreferredSize(buttonSize);
@@ -578,7 +578,7 @@ public class PuzzleGUI extends JFrame {
 		////layout.putConstraint(left, mute, buttonSeperation, left, creditsPanel);
 		////layout.putConstraint(bottom, mute, -buttonSeperation, bottom, creditsPanel);
 		
-		// Constrain new song button
+		// Constrain credits new song button
 		////layout.putConstraint(left, newSong, buttonSeperation, right, mute);
 		////layout.putConstraint(bottom, newSong, -buttonSeperation, bottom, creditsPanel);
 
