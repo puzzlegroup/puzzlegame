@@ -85,7 +85,7 @@ public class PuzzleGUI extends JFrame {
 	public static void main(String[] args) {
 
 		// Create GUI
-		PuzzleGUI GUI = new LatestPuzzleGUI();
+		PuzzleGUI GUI = new PuzzleGUI();
 
 		// Create PuzzleSound
 		playMusic();
@@ -170,11 +170,11 @@ public class PuzzleGUI extends JFrame {
 				
 					
 		} catch (UnsupportedAudioFileException ex) {
-			Logger.getLogger(PuzzleSound2.class.getName()).log(Level.SEVERE, null, ex);
+			//Logger.getLogger(PuzzleSound2.class.getName()).log(Level.SEVERE, null, ex);
 		} catch (IOException ex) {
-			Logger.getLogger(PuzzleSound2.class.getName()).log(Level.SEVERE, null, ex);
+			//Logger.getLogger(PuzzleSound2.class.getName()).log(Level.SEVERE, null, ex);
 		} catch (LineUnavailableException ex) {
-			Logger.getLogger(PuzzleSound2.class.getName()).log(Level.SEVERE, null, ex);
+			//Logger.getLogger(PuzzleSound2.class.getName()).log(Level.SEVERE, null, ex);
 		}	
 
 		/**
@@ -680,11 +680,11 @@ public class PuzzleGUI extends JFrame {
 			System.out.println(file.getName());
 					
 		} catch (UnsupportedAudioFileException ex) {
-			Logger.getLogger(PuzzleSound2.class.getName()).log(Level.SEVERE, null, ex);
+			//Logger.getLogger(PuzzleSound2.class.getName()).log(Level.SEVERE, null, ex);
 		} catch (IOException ex) {
-			Logger.getLogger(PuzzleSound2.class.getName()).log(Level.SEVERE, null, ex);
+			//Logger.getLogger(PuzzleSound2.class.getName()).log(Level.SEVERE, null, ex);
 		} catch (LineUnavailableException ex) {
-			Logger.getLogger(PuzzleSound2.class.getName()).log(Level.SEVERE, null, ex);
+			//Logger.getLogger(PuzzleSound2.class.getName()).log(Level.SEVERE, null, ex);
 		}	
 			
 		try {					
@@ -693,9 +693,9 @@ public class PuzzleGUI extends JFrame {
 			Thread.sleep(durationInSeconds*1000);						
 								
 		} catch (IOException ex) {
-			Logger.getLogger(PuzzleSound2.class.getName()).log(Level.SEVERE, null, ex);
+			//Logger.getLogger(PuzzleSound2.class.getName()).log(Level.SEVERE, null, ex);
 		} catch (LineUnavailableException ex) {
-			Logger.getLogger(PuzzleSound2.class.getName()).log(Level.SEVERE, null, ex);
+			//Logger.getLogger(PuzzleSound2.class.getName()).log(Level.SEVERE, null, ex);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}			
