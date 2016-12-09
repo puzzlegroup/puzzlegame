@@ -10,19 +10,13 @@
 package puzzlegame;
 
 // Import classes
+import java.io.*;
 import java.awt.*;
-import java.awt.event.*;
-import java.io.File;
-import java.io.IOException;
-import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
+import java.awt.event.*;
+import java.util.Random;
+import java.util.logging.*;
+import javax.sound.sampled.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 // GUI for Team Vulcan's Logic Quest game
