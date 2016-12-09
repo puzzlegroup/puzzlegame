@@ -234,7 +234,7 @@ public class Puzzle {
 
 		// Add puzzle hints to textArea
 		if(hintCounter <= hints.length-1) {
-			textArea.append((hintCounter+6) + ") " + hints[hintCounter] + newlines);
+			textArea.append(hints[hintCounter] + newlines);
 			hintCounter++;
 		} else
 			JOptionPane.showMessageDialog(null, "There are no more available hints.");
@@ -354,28 +354,50 @@ public class Puzzle {
 
 
 		// Create back button
+                ImageIcon backIcon = new ImageIcon("src/puzzlegame/images/voyager-side.png");
+                Image backImg = backIcon.getImage().getScaledInstance(buttonWidth, buttonHeight, java.awt.Image.SCALE_SMOOTH);
+                backIcon = new ImageIcon(backImg);
 		back = new JButton(backTitle);
+                back.setIcon(backIcon);
+                back.setHorizontalTextPosition(JButton.CENTER);
+                back.setVerticalTextPosition(JButton.CENTER);
 		back.setFont(font);
+                back.setForeground(Color.black);
 		back.setPreferredSize(buttonSize);
 		panel.add(back);
 
 		// Create hint button
+                ImageIcon puzzleIcon = new ImageIcon("src/puzzlegame/images/enterprise.jpg");
+                Image hintImg = puzzleIcon.getImage().getScaledInstance(buttonWidth, buttonHeight, java.awt.Image.SCALE_SMOOTH);
+                puzzleIcon = new ImageIcon(hintImg);
 		hint = new JButton(hintTitle);
+                hint.setIcon(puzzleIcon);
+                hint.setHorizontalTextPosition(JButton.CENTER);
+                hint.setVerticalTextPosition(JButton.CENTER);
 		hint.setFont(font);
+                hint.setForeground(Color.black);
 		hint.setPreferredSize(buttonSize);
 		hint.addActionListener(event -> giveHint(textArea));
 		panel.add(hint);
 
 		// Create restart button
 		restart = new JButton(restartTitle);
+                restart.setIcon(puzzleIcon);
+                restart.setHorizontalTextPosition(JButton.CENTER);
+                restart.setVerticalTextPosition(JButton.CENTER);
 		restart.setFont(font);
+                restart.setForeground(Color.red);
 		restart.setPreferredSize(buttonSize);
 		restart.addActionListener(event -> restartPuzzle());
 		panel.add(restart);
 
 		// Create submit button
 		submit = new JButton(submitTitle);
+                submit.setIcon(puzzleIcon);
+                submit.setHorizontalTextPosition(JButton.CENTER);
+                submit.setVerticalTextPosition(JButton.CENTER);
 		submit.setFont(font);
+                submit.setForeground(Color.black);
 		submit.setPreferredSize(buttonSize);
 		submit.addActionListener(event -> {
                     checkAnswers(levelIndex, levelStars);
@@ -465,7 +487,7 @@ public class Puzzle {
 		textArea.append("\t" + name + newlines);
 		textArea.append(dialog + newlines);
 		for(int i = 0; i < clues.length; i++)
-			textArea.append((i+1) + ") " + clues[i] + newlines);
+			textArea.append(clues[i] + newlines);
 		panel.add(scrollPane);
 
 		// Add background image
