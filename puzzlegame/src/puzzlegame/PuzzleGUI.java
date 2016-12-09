@@ -57,7 +57,7 @@ public class PuzzleGUI extends JFrame {
 
 	// Declare utility variables
 	private String[] puzzleNames = {"Level 1", "Level 2"};
-	private String[] puzzleKeyNames = {"puzzledatatest", "a01-level01"};
+	private String[] puzzleKeyNames = {"puzzledatatest", "puzzledatatest"};//"a01-level01"};
 	private JButton levelButtons[] = new JButton[puzzleNames.length];
 	
 	// Declare sound variables
@@ -108,8 +108,9 @@ public class PuzzleGUI extends JFrame {
 		int buttonXOffset = (frameWidth / 2) - (buttonWidth / 2);
 		int buttonYOffset = 350;
 		int buttonSeperation = 10;
-		Font font = new Font(null, Font.BOLD, 16);
-
+		Font font = new Font(null, Font.BOLD, 18);
+		Font font2 = new Font(null, Font.BOLD, 16);
+                
 		// Declare and initialize titles
 		String mainTitle = "Logic Quest";
 		String backTitle = "Back";
@@ -182,36 +183,70 @@ public class PuzzleGUI extends JFrame {
 		 */
 
 		// Create play button
+                ImageIcon playIcon = new ImageIcon("src/puzzlegame/images/nebula.jpg");
+                Image playImg = playIcon.getImage().getScaledInstance(buttonWidth, buttonHeight, java.awt.Image.SCALE_SMOOTH);
+                playIcon = new ImageIcon(playImg);
 		play = new JButton(playTitle);
+                play.setIcon(playIcon);
+                play.setHorizontalTextPosition(JButton.CENTER);
+                play.setVerticalTextPosition(JButton.CENTER);
 		play.setFont(font);
+                play.setForeground(Color.black);
 		play.setPreferredSize(buttonSize);
 		play.addActionListener(event -> showPanel(mapPanel));
 		introPanel.add(play);
 
 		// Create tutorial button
+                ImageIcon tutorialIcon = new ImageIcon("src/puzzlegame/images/galaxy-venture.jpg");
+                Image tutorialImg = tutorialIcon.getImage().getScaledInstance(buttonWidth, buttonHeight, java.awt.Image.SCALE_SMOOTH);
+                tutorialIcon = new ImageIcon(tutorialImg);
 		tutorial = new JButton(tutorialTitle);
+                tutorial.setIcon(tutorialIcon);
+                tutorial.setHorizontalTextPosition(JButton.CENTER);
+                tutorial.setVerticalTextPosition(JButton.CENTER);
 		tutorial.setFont(font);
+                tutorial.setForeground(Color.black);
 		tutorial.setPreferredSize(buttonSize);
 		tutorial.addActionListener(event -> showPanel(tutorialPanel));
 		introPanel.add(tutorial);
 
 		// Create credits button
+                ImageIcon creditsIcon = new ImageIcon("src/puzzlegame/images/quantum-class-13.jpg");
+                Image creditsImg = creditsIcon.getImage().getScaledInstance(buttonWidth, buttonHeight, java.awt.Image.SCALE_SMOOTH);
+                creditsIcon = new ImageIcon(creditsImg);
 		credits = new JButton(creditsTitle);
+                credits.setIcon(creditsIcon);
+                credits.setHorizontalTextPosition(JButton.CENTER);
+                credits.setVerticalTextPosition(JButton.CENTER);
 		credits.setFont(font);
+                credits.setForeground(Color.black);
 		credits.setPreferredSize(buttonSize);
 		credits.addActionListener(event -> showPanel(creditsPanel));
 		introPanel.add(credits);
 		
 		// Create intro mute button
+                ImageIcon glowIcon = new ImageIcon("src/puzzlegame/images/glow.png");
+                Image glowImg = glowIcon.getImage().getScaledInstance(buttonWidth, buttonHeight, java.awt.Image.SCALE_SMOOTH);
+                glowIcon = new ImageIcon(glowImg);
 		mute = new JButton(muteTitle);
-		mute.setFont(font);
+                mute.setIcon(glowIcon);
+                mute.setHorizontalTextPosition(JButton.CENTER);
+                mute.setVerticalTextPosition(JButton.CENTER);
+		mute.setFont(font2);
+                mute.setForeground(Color.black);
+                mute.setContentAreaFilled(false);
 		mute.setPreferredSize(buttonSize);
 		mute.addActionListener(event -> stopMusic());	
 		introPanel.add(mute);
 
 		// Create new song button
 		newSong = new JButton(newSongTitle);
-		newSong.setFont(font);
+                newSong.setIcon(glowIcon);
+                newSong.setHorizontalTextPosition(JButton.CENTER);
+                newSong.setVerticalTextPosition(JButton.CENTER);
+		newSong.setFont(font2);
+                newSong.setForeground(Color.black);
+                newSong.setContentAreaFilled(false);
 		newSong.setPreferredSize(buttonSize);
 		newSong.addActionListener(event -> newMusic());
 		introPanel.add(newSong);
@@ -245,22 +280,39 @@ public class PuzzleGUI extends JFrame {
 		 */
 
 		// Create first back button
+                ImageIcon backIcon = new ImageIcon("src/puzzlegame/images/voyager-side.png");
+                Image back_1Img = backIcon.getImage().getScaledInstance(buttonWidth, buttonHeight, java.awt.Image.SCALE_SMOOTH);
+                backIcon = new ImageIcon(back_1Img);
 		back_1 = new JButton(backTitle);
+                back_1.setIcon(backIcon);
+                back_1.setHorizontalTextPosition(JButton.CENTER);
+                back_1.setVerticalTextPosition(JButton.CENTER);
 		back_1.setFont(font);
+                back_1.setForeground(Color.black);
 		back_1.setPreferredSize(buttonSize);
 		back_1.addActionListener(event -> showPanel(introPanel));
 		mapPanel.add(back_1);
 		
 		// Create map mute button
 		mute = new JButton(muteTitle);
-		mute.setFont(font);
+                mute.setIcon(glowIcon);
+                mute.setHorizontalTextPosition(JButton.CENTER);
+                mute.setVerticalTextPosition(JButton.CENTER);
+		mute.setFont(font2);
+                mute.setForeground(Color.black);
+                mute.setContentAreaFilled(false);
 		mute.setPreferredSize(buttonSize);
 		mute.addActionListener(event -> stopMusic());	
 		mapPanel.add(mute);
 		
 		// Create new song button
 		newSong = new JButton(newSongTitle);
-		newSong.setFont(font);
+		newSong.setIcon(glowIcon);
+                newSong.setHorizontalTextPosition(JButton.CENTER);
+                newSong.setVerticalTextPosition(JButton.CENTER);
+		newSong.setFont(font2);
+                newSong.setForeground(Color.black);
+                newSong.setContentAreaFilled(false);
 		newSong.setPreferredSize(buttonSize);
 		newSong.addActionListener(event -> newMusic());
 		mapPanel.add(newSong);		
@@ -310,26 +362,40 @@ public class PuzzleGUI extends JFrame {
 
 		// Create back button
 		map = new JButton(backTitle);
+                map.setIcon(backIcon);
+                map.setHorizontalTextPosition(JButton.CENTER);
+                map.setVerticalTextPosition(JButton.CENTER);
 		map.setFont(font);
+                map.setForeground(Color.black);
 		map.setPreferredSize(buttonSize);
 		map.addActionListener(event -> showPanel(mapPanel));
 		areaPanels[0].add(map);
 		
 		// Create area mute button
 		mute = new JButton(muteTitle);
-		mute.setFont(font);
+                mute.setIcon(glowIcon);
+                mute.setHorizontalTextPosition(JButton.CENTER);
+                mute.setVerticalTextPosition(JButton.CENTER);
+		mute.setFont(font2);
+                mute.setForeground(Color.black);
+                mute.setContentAreaFilled(false);
 		mute.setPreferredSize(buttonSize);
 		mute.addActionListener(event -> stopMusic());	
 		areaPanels[0].add(mute);
 		
 		// Create new song button
 		newSong = new JButton(newSongTitle);
-		newSong.setFont(font);
+		newSong.setIcon(glowIcon);
+                newSong.setHorizontalTextPosition(JButton.CENTER);
+                newSong.setVerticalTextPosition(JButton.CENTER);
+		newSong.setFont(font2);
+                newSong.setForeground(Color.black);
+                newSong.setContentAreaFilled(false);
 		newSong.setPreferredSize(buttonSize);
 		newSong.addActionListener(event -> newMusic());
 		areaPanels[0].add(newSong);
 
-		// Create level buttons
+		// Create level buttons for first area
 		for (int i = 0; i < levelButtons.length; i++) {
 
 			// Declare and initialize index constant
@@ -343,7 +409,7 @@ public class PuzzleGUI extends JFrame {
 			levelButtons[i].setForeground(Color.WHITE);
 			levelButtons[i].setPreferredSize(buttonSize);
 			levelButtons[i].addActionListener(event ->
-			showPuzzle(puzzleKeyNames[levelIndex], areaPanels[levelIndex], levelIndex));
+			showPuzzle(puzzleKeyNames[levelIndex], areaPanels[0], levelIndex));
 			
 			// Add level button
 			areaPanels[0].add(levelButtons[i]);
@@ -415,7 +481,11 @@ public class PuzzleGUI extends JFrame {
 
 		// Create second back button
 		back_2 = new JButton(backTitle);
+                back_2.setIcon(backIcon);
+                back_2.setHorizontalTextPosition(JButton.CENTER);
+                back_2.setVerticalTextPosition(JButton.CENTER);
 		back_2.setFont(font);
+                back_2.setForeground(Color.black);
 		back_2.setPreferredSize(buttonSize);
 		back_2.addActionListener(event -> showPanel(introPanel));
 		tutorialPanel.add(back_2);
@@ -547,7 +617,11 @@ public class PuzzleGUI extends JFrame {
 
 		// Create third back button
 		back_3 = new JButton(backTitle);
+                back_3.setIcon(backIcon);
+                back_3.setHorizontalTextPosition(JButton.CENTER);
+                back_3.setVerticalTextPosition(JButton.CENTER);
 		back_3.setFont(font);
+                back_3.setForeground(Color.black);
 		back_3.setPreferredSize(buttonSize);
 		back_3.addActionListener(event -> showPanel(introPanel));
 		creditsPanel.add(back_3);
