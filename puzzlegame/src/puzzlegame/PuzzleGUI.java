@@ -72,7 +72,7 @@ public class PuzzleGUI extends JFrame {
 			"src/puzzlegame/Sound-Wavs/Star_Trek Run Shoot.wav",
 			"src/puzzlegame/Sound-Wavs/Star_Trek Sting.wav" };
 
-        // Declare and intialize level stars
+        // Declare and initialize level stars
         private JLabel[][] levelStars = new JLabel[puzzleNames.length][6];
         
 	// Main program
@@ -411,7 +411,8 @@ public class PuzzleGUI extends JFrame {
 
                 // Create star image icon
                 ImageIcon star = new ImageIcon("src/puzzlegame/images/star-20.png");
-                // Intialize levelStars
+                
+		// Initialize levelStars
                 for(int level = 0; level < puzzleNames.length; level++) {
                     for(int stars = 0; stars < 6; stars++) {
                         levelStars[level][stars] = new JLabel(star);
@@ -696,6 +697,25 @@ public class PuzzleGUI extends JFrame {
 	// Method for showing puzzle screen
 	private void showPuzzle(String fileName, JPanel previousPanel, int levelIndex) {
 
+		// Declare and initialize star counter
+		int starCounter = 0;
+		
+		// Count level 1 stars
+		for(int i = 0; i < levelStars[0].length; i++)
+			if(levelStars[0][i].isVisible())
+				starCounter++;
+		
+		// If level 2, check if user has completed level 1
+		if(levelIndex == 1 && starCounter < 3) {
+			
+			// Output message to user
+			JOptionPane.showMessageDialog(null,
+					"Complete level 1 with 3 stars\nor more to unlock this level!");
+			
+			// End function call
+			return;
+		}
+		
 		// Create new puzzle instance
 		Puzzle puzzle = new Puzzle();
 
