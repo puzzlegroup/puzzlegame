@@ -350,7 +350,7 @@ public class PuzzleGUI extends JFrame {
 		}
 
                 // Create star image icon
-                ImageIcon star = new ImageIcon("src/puzzlegame/images/star.png");
+                ImageIcon star = new ImageIcon("src/puzzlegame/images/star-20.png");
                 // Intialize levelStars
                 for(int level = 0; level < puzzleNames.length; level++) {
                     for(int stars = 0; stars < 6; stars++) {
@@ -656,7 +656,11 @@ public class PuzzleGUI extends JFrame {
 		// Replace the current panel
 		remove(currentPanel);
 		add(puzzle.getPanel());
-		currentPanel = puzzle.getPanel();	
+		currentPanel = puzzle.getPanel();
+                
+                // Reconfigure screen
+		validate();
+		repaint();
 	}
 	
 	// Methods for playing background music
