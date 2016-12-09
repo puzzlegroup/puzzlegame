@@ -241,12 +241,16 @@ public class Puzzle {
 	}
 
 	// Method for checking user's answers
-	private void checkAnswers() {
+	private void checkAnswers(int levelIndex, JLabel[][] levelStars) {
 
 		// Declare and initialize variables
 		int size = tables[0].getRowCount();
 		int correctAnswers = 0;
-
+                
+                // initialize times
+                finishTime = System.nanoTime(); // get finishTime
+                totalTime = (finishTime - startTime) / (double) 1_000_000_000; // get totalTime in seconds as a double
+                    
 		// Create consolidated answer matrix
 		int[][][] answers = {answerMatrix1, answerMatrix2, answerMatrix3};
 
@@ -260,32 +264,42 @@ public class Puzzle {
 		// Check number of correct answers
 		switch(correctAnswers) {
 
-		case 0: case 1: case 2:
+		case 0: case 1: case 2: case 3: case 4:
 			stars = 0;
 			break;
 
-		case 3: case 4: case 5:
+		case 5: case 6: case 7: case 8: case 9:
 			stars = 1;
 			break;
 
-		case 6: case 7: case 8:
+		case 10: case 11: case 12: case 13: case 14:
 			stars = 2;
 			break;
 
-		case 9: case 10: case 11:
-			stars = 3;
-			break;
-
-		case 12: case 13: case 14:
-			stars = 4;
-			break;
-
 		case 15:
-			stars = 5;
+			stars = 3;
 			break;
 
 		}
 
+                // Check time for stars
+                if(stars == 3) { // only if the puzzle is completely solved do you get extra stars for time
+                    if(totalTime <= 2*60.0) { // 2 minutes or less
+                        stars += 3;
+                    } else  if(totalTime <= 3*60.0) { // 3 minutes or less
+                        stars += 2;
+                    } else if(totalTime <= 4*60.0) { //  4 minutes or less
+                        stars += 1;
+                    } else { // more than 4 minutes
+                        // no stars
+                    }
+                }
+            
+                
+                // update levelStars array
+                for(int i = 0; i < stars; i++) {
+                    levelStars[levelIndex][i].setVisible(true);
+                }
 	}
 
 	// Method for restarting puzzle
@@ -305,7 +319,7 @@ public class Puzzle {
 	}
 
 	// Method for initializing puzzle screen
-	public void initializePanel() {
+	public void initializePanel(int levelIndex, JLabel[][] levelStars) {
 
 		// Declare and initialize GUI variables
 		int buttonWidth = 120;
@@ -363,7 +377,10 @@ public class Puzzle {
 		submit = new JButton(submitTitle);
 		submit.setFont(font);
 		submit.setPreferredSize(buttonSize);
-		submit.addActionListener(event -> checkAnswers());
+		submit.addActionListener(event -> {
+                    checkAnswers(levelIndex, levelStars);
+                    back.doClick();
+                });
 		panel.add(submit);
 
 		// Create tables
