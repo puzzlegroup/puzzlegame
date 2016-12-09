@@ -72,6 +72,9 @@ public class PuzzleGUI extends JFrame {
 	private static String enterpriseMusic = "src/puzzlegame/Sound-Wavs/Star_Trek Enterprising.wav";
 	private static String Music = "src/puzzlegame/Sound-Wavs/Star_Trek Back.wav";
 
+        // Declare and intialize level stars
+        private JLabel[][] levelStars = new JLabel[puzzleNames.length][6];
+        
 	// Main program
 	public static void main(String[] args) {
 
@@ -256,12 +259,28 @@ public class PuzzleGUI extends JFrame {
 			levelButtons[i].setForeground(Color.WHITE);
 			levelButtons[i].setPreferredSize(buttonSize);
 			levelButtons[i].addActionListener(event ->
-			showPuzzle(puzzleKeyNames[levelIndex], areaPanels[levelIndex]));
+			showPuzzle(puzzleKeyNames[levelIndex], areaPanels[levelIndex], levelIndex));
 			
 			// Add level button
 			areaPanels[0].add(levelButtons[i]);
 		}
 
+                // Create star image icon
+                ImageIcon star = new ImageIcon("src/puzzlegame/images/star.png");
+                // Intialize levelStars
+                for(int level = 0; level < puzzleNames.length; level++) {
+                    for(int stars = 0; stars < 6; stars++) {
+                        levelStars[level][stars] = new JLabel(star);
+                    }
+                }
+                
+                // Add six stars to each level
+                for(int level = 0; level < puzzleNames.length; level++) {
+                    for(int stars = 0; stars < 6; stars++) {
+                        areaPanels[0].add(levelStars[level][stars]);
+                    }
+                }
+                
 		// Add background image
 		areaPanels[0].add(area1Background);
 		areaPanels[0].setComponentZOrder(area1Background, areaPanels[0].getComponentCount() - 1);
@@ -274,11 +293,30 @@ public class PuzzleGUI extends JFrame {
 		layout.putConstraint(left, levelButtons[0], 370, left, areaPanels[0]);
 		layout.putConstraint(top, levelButtons[0], 150, top, areaPanels[0]);
 		
+                // Constraint first star per level
+                for(int i = 0; i < puzzleNames.length; i++) {
+                    layout.putConstraint(left, levelStars[i][0], 0, left, levelButtons[i]);
+                    layout.putConstraint(top, levelStars[i][0], 5, bottom, levelButtons[i]);
+                    // hide star
+                    levelStars[i][0].setVisible(false);
+                }
+                // Constraint set the remainder 5 stars
+                for(int i = 0; i < puzzleNames.length; i++) {
+                    for(int j = 1; j < 6; j++) {
+                        layout.putConstraint(left, levelStars[i][j], 0, right, levelStars[i][j-1]);
+                        layout.putConstraint(top, levelStars[i][j], 5, bottom, levelButtons[i]);
+                        // hide stars
+                        levelStars[i][j].setVisible(false);
+                    }
+                }
+                
 		// Constrain second level button
 		layout.putConstraint(left, levelButtons[1], 430, left, areaPanels[0]);
 		layout.putConstraint(top, levelButtons[1], 430, top, areaPanels[0]);
 
 
+                
+                
 		/**
 		 * TUTORIAL SCREEN
 		 */
@@ -472,7 +510,7 @@ public class PuzzleGUI extends JFrame {
 	}
 
 	// Method for showing puzzle screen
-	private void showPuzzle(String fileName, JPanel previousPanel) {
+	private void showPuzzle(String fileName, JPanel previousPanel, int levelIndex) {
 
 		// Create new puzzle instance
 		Puzzle puzzle = new Puzzle();
@@ -496,7 +534,7 @@ public class PuzzleGUI extends JFrame {
 		}
 
 		// Initialize new panel
-		puzzle.initializePanel();
+		puzzle.initializePanel(levelIndex, levelStars);
 		puzzle.getBack().addActionListener(event -> showPanel(previousPanel));
 
 		// Replace the current panel
