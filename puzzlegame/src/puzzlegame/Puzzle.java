@@ -51,7 +51,7 @@ public class Puzzle {
 	private JTable[] tables = new JTable[3];
 	private long startTime;
 	private long finishTime;
-	private double totalTime;
+	private double totalTime = 0.0;
 	private int stars;
 	private int hintCounter;
 
@@ -236,6 +236,7 @@ public class Puzzle {
 		if(hintCounter <= hints.length-1) {
 			textArea.append(hints[hintCounter] + newlines);
 			hintCounter++;
+                        totalTime += 20.0; // add 20 seconds to total time
 		} else
 			JOptionPane.showMessageDialog(null, "There are no more available hints.");
 	}
@@ -249,7 +250,7 @@ public class Puzzle {
                 
                 // initialize times
                 finishTime = System.nanoTime(); // get finishTime
-                totalTime = (finishTime - startTime) / (double) 1_000_000_000; // get totalTime in seconds as a double
+                totalTime += (finishTime - startTime) / (double) 1_000_000_000; // get totalTime in seconds as a double
                     
 		// Create consolidated answer matrix
 		int[][][] answers = {answerMatrix1, answerMatrix2, answerMatrix3};
@@ -609,7 +610,7 @@ public class Puzzle {
 	}
 
 	// Method for getting html string for vertical JLabel text
-	public static String stringToHtml(String s) {
+	private static String stringToHtml(String s) {
 		String result = "<html>";
 		String br = "<br>";
 
