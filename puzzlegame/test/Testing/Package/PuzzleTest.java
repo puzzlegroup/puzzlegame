@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -114,5 +115,26 @@ public final class PuzzleTest {
         jpanel = null;
     } // end testGetPanel
     
-    
+    /**
+     * Test
+     */
+    @Test
+    public void testGetBack() {
+
+        // declare and initialize
+        String expected = "javax.swing.JButton";
+        String result = null;
+        JButton jbutton = null;
+        
+        // call getBack and assign to result
+        jbutton = puzzle.getBack();
+        result = jbutton.getClass().getName();
+        
+        System.out.println("@Test testGetBack(): expected = " + expected + ", result = " + result);
+        assertEquals(expected, result);
+        
+        expected = null;
+        result = null;
+        jbutton = null;
+    } // end testGetBack
 }
