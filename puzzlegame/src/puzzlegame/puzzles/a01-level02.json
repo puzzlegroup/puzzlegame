@@ -1,3 +1,44 @@
 {
-
+    "name": "Level 2",
+    
+    "puzzleKeyName": "a01-level02",
+    
+    "topHeaders": ["Crew Members","Planets"],
+    
+    "leftHeaders": ["Years", "Planets"],
+    
+    "topLabels": ["Kirk", "Uhura", "Spock", "McCoy", "Sulu", "Sol III", "Vulcan", "Andoria", "Risa", "Trill"],
+    
+    "leftLabels": ["2110", "2150", "2190", "2230", "2270","Sol III", "Vulcan", "Andoria", "Risa", "Trill"],
+    
+    "dialog": "The crew of the Enterprise has been tasked with infestation control over their many years in space. From the clues provided, match each crew member to the year and planet of the infestation.",
+    
+    "clues": ["1. Spock traveled to Vulcan before Kirk traveled to Andoria.",
+              "2. The planet with the infestation in 2110 is Sol III.",
+              "3. Sulu handled an infestation earlier then the Trill infestation.",
+              "4. Uhura traveled to Sol III in 2110 or 2190.",
+              "5. A crew member landed on Andoria in 2230.",
+              "6. Trill was traveled to last.",
+              "7. Spock handled an infestation before 2190."],
+    
+    "hints": ["8. Trill was traveled to in 2270.",
+              "9. McCoy traveled to Trill."],
+    
+    "answerMatrix1": [[0,1,0,0,0],
+                      [0,0,1,0,0],
+                      [0,0,0,0,1],
+                      [1,0,0,0,0],
+                      [0,0,0,1,0]],
+                  
+    "answerMatrix2": [[1,0,0,0,0],
+                      [0,1,0,0,0],
+                      [0,0,0,1,0],
+                      [0,0,1,0,0],
+                      [0,0,0,0,1]],
+    
+    "answerMatrix3": [[0,1,0,0,0],
+                      [0,0,1,0,0],
+                      [1,0,0,0,0],
+                      [0,0,0,0,1],
+                      [0,0,0,1,0]]
 }

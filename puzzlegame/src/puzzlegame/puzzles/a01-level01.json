@@ -1,3 +1,47 @@
 {
-
+    "name": "Level 1",
+    
+    "puzzleKeyName": "a01-level01",
+    
+    "topHeaders": ["Crew Members","Creatures"],
+    
+    "leftHeaders": ["Years", "Creatures"],
+    
+    "topLabels": ["Kirk", "Uhura", "Spock", "McCoy", "Sulu", "Torg", "Ceti Eel", "Gagh", "Sehlat", "Tribble"],
+    
+    "leftLabels": ["2110", "2150", "2190", "2230", "2270","Torg", "Ceti Eel", "Gagh", "Sehlat", "Tribble"],
+    
+    "dialog": "The crew of the Enterprise has been tasked with infestation control over their many years in space. From the clues provided, match each crew member to the year and creature of the infestation.",
+    
+    "clues": ["1. The crew member who helped with the infestation of 2190 captured either the Gagh or the Torg.",
+              "2. The Torg infestation occured in 2230 or 2150.",
+              "3. Spock did not capture the Torg.",
+              "4. Kirk handled his infestation 80 years after the infestation of Gagh.",
+              "5. Spock did not handle the Sehlat infestation, but handled an infestation in 2190.",
+              "6. The infestation of Ceti Eel happened last.",
+              "7. The Sehlat infestation happened in 2110 by Uhura or McCoy.",
+              "8. The infestation of Tribble happened before the infestation of Torg.",
+              "9. Sulu handled the Torg or Sehlat infestation.",
+              "10. The Sehlat infestation happened first."],
+    
+    "hints": ["11. McCoy handled the Sehlat infestation.",
+              "12. Uhura handled the Tribble infestation."],
+    
+    "answerMatrix1": [[0,0,0,1,0],
+                      [0,1,0,0,0],
+                      [0,0,1,0,0],
+                      [0,0,0,0,1],
+                      [1,0,0,0,0]],
+                  
+    "answerMatrix2": [[0,0,0,1,0],
+                      [0,0,0,0,1],
+                      [0,0,1,0,0],
+                      [1,0,0,0,0],
+                      [0,1,0,0,0]],
+    
+    "answerMatrix3": [[0,0,0,0,1],
+                      [1,0,0,0,0],
+                      [0,0,1,0,0],
+                      [0,0,0,1,0],
+                      [0,1,0,0,0]]
 }
