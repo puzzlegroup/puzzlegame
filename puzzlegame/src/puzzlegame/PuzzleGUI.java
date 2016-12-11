@@ -51,7 +51,7 @@ public class PuzzleGUI extends JFrame {
 
 	// Declare utility variables
 	private String[] puzzleNames = {"Level 1", "Level 2"};
-	private String[] puzzleKeyNames = {"puzzledatatest", "puzzledatatest"};//"a01-level01"};
+	private String[] puzzleKeyNames = {"a01-level01", "a01-level02"};
 	private JButton levelButtons[] = new JButton[puzzleNames.length];
 	
 	// Declare sound variables
