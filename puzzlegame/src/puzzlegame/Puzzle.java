@@ -19,7 +19,7 @@ import javax.swing.table.DefaultTableModel;
 import com.fasterxml.jackson.annotation.*;
 
 // Puzzle class for use in PuzzleGUI
-public class Puzzle {
+public final class Puzzle {
 
 	// Declare puzzle variables
 	@JsonProperty("name")
@@ -259,10 +259,10 @@ public class Puzzle {
                 try {
 		for(int i = 0; i < tables.length; i++)
 			for(int j = 0; j < size; j++)
-				for(int k = 0; k < size; k++) {
+				for(int k = 0; k < size; k++) 
 					if(answers[i][j][k] == 1 && tables[i].getValueAt(j, k).equals(" O"))
 						correctAnswers++;
-                                }
+                                
                 } catch (Exception e) {
                     // do nothing
                 }
