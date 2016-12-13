@@ -20,7 +20,7 @@ import javax.sound.sampled.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 // GUI for Team Vulcan's Logic Quest game
-public class PuzzleGUI extends JFrame {
+public final class PuzzleGUI extends JFrame {
 
 	/**
 	 * GLOBAL SETUP
