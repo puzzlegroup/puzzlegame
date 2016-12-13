@@ -256,11 +256,16 @@ public class Puzzle {
 		int[][][] answers = {answerMatrix1, answerMatrix2, answerMatrix3};
 
 		// Check every value in every matrix
+                try {
 		for(int i = 0; i < tables.length; i++)
 			for(int j = 0; j < size; j++)
-				for(int k = 0; k < size; k++)
+				for(int k = 0; k < size; k++) {
 					if(answers[i][j][k] == 1 && tables[i].getValueAt(j, k).equals(" O"))
 						correctAnswers++;
+                                }
+                } catch (Exception e) {
+                    // do nothing
+                }
 
 		// Check number of correct answers
 		switch(correctAnswers) {
