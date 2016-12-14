@@ -370,7 +370,7 @@ public final class Puzzle {
                 back.setHorizontalTextPosition(JButton.CENTER);
                 back.setVerticalTextPosition(JButton.CENTER);
 		back.setFont(font);
-                back.setForeground(Color.black);
+                back.setForeground(Color.white);
 		back.setPreferredSize(buttonSize);
 		panel.add(back);
 
