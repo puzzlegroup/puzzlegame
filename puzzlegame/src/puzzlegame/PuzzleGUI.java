@@ -111,8 +111,6 @@ public final class PuzzleGUI extends JFrame {
 		String playTitle = "Play";
 		String tutorialTitle = "Tutorial";
 		String creditsTitle = "Credits";
-		String goalTitle = "Goal\n\nThe goal is to complete each puzzle\n...time\n...stars";
-		String howToTitle = "How to play\n\nStep-by-step mini puzzle goes here";
 		String muteTitle = "Mute";
 		String newSongTitle = "New Song";
 
@@ -553,6 +551,7 @@ public final class PuzzleGUI extends JFrame {
 			int currentIndex = 0;
 
 			// Create mouse click method
+                        @Override
 			public void mouseClicked(MouseEvent event) {
 
 				// Check mouse button
@@ -730,7 +729,7 @@ public final class PuzzleGUI extends JFrame {
 		}
 		// Handle errors if they occur
 		catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 
 			// Output error message
 			JOptionPane.showMessageDialog(null, "Error mapping JSON contents",
@@ -738,7 +737,12 @@ public final class PuzzleGUI extends JFrame {
 		}
 
 		// Initialize new panel
+                try {
 		puzzle.initializePanel(levelIndex, levelStars);
+                } catch (Exception e) {
+                    System.out.println("The Puzzle name is not readable.");
+                    System.exit(0);
+                }
 		puzzle.getBack().addActionListener(event -> showPanel(previousPanel));
 
 		// Replace the current panel
@@ -789,7 +793,7 @@ public final class PuzzleGUI extends JFrame {
 		} catch (LineUnavailableException ex) {
 			//Logger.getLogger(PuzzleSound2.class.getName()).log(Level.SEVERE, null, ex);
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}			
 	}
 		
