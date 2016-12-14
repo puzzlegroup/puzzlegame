@@ -122,6 +122,7 @@ public final class Puzzle {
 		DefaultTableModel model = new DefaultTableModel(size, size) {
 
 			// Set cells to not editable
+                        @Override
 			public boolean isCellEditable(int row, int column) {
 
 				return false;
@@ -142,7 +143,7 @@ public final class Puzzle {
 			newTable.getColumnModel().getColumn(i).setPreferredWidth(cellWidth);
 
 		// Set table border
-		Border border = BorderFactory.createMatteBorder(borderWidth,
+		border = BorderFactory.createMatteBorder(borderWidth,
 				borderWidth, borderWidth, borderWidth, borderColor);
 		newTable.setBorder(border);
 
@@ -155,6 +156,7 @@ public final class Puzzle {
 		newTable.addMouseListener(new MouseAdapter() {
 
 			// Create mouse click method
+                        @Override
 			public void mouseClicked(MouseEvent event) {
 
 				// Get selected cell
