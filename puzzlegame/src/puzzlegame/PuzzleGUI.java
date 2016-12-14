@@ -280,7 +280,7 @@ public final class PuzzleGUI extends JFrame {
                 back_1.setHorizontalTextPosition(JButton.CENTER);
                 back_1.setVerticalTextPosition(JButton.CENTER);
 		back_1.setFont(font);
-                back_1.setForeground(Color.black);
+                back_1.setForeground(Color.white);
 		back_1.setPreferredSize(buttonSize);
 		back_1.addActionListener(event -> showPanel(introPanel));
 		mapPanel.add(back_1);
@@ -358,7 +358,7 @@ public final class PuzzleGUI extends JFrame {
                 map.setHorizontalTextPosition(JButton.CENTER);
                 map.setVerticalTextPosition(JButton.CENTER);
 		map.setFont(font);
-                map.setForeground(Color.black);
+                map.setForeground(Color.white);
 		map.setPreferredSize(buttonSize);
 		map.addActionListener(event -> showPanel(mapPanel));
 		areaPanels[0].add(map);
@@ -478,7 +478,7 @@ public final class PuzzleGUI extends JFrame {
                 back_2.setHorizontalTextPosition(JButton.CENTER);
                 back_2.setVerticalTextPosition(JButton.CENTER);
 		back_2.setFont(font);
-                back_2.setForeground(Color.black);
+                back_2.setForeground(Color.white);
 		back_2.setPreferredSize(buttonSize);
 		back_2.addActionListener(event -> showPanel(introPanel));
 		tutorialPanel.add(back_2);
@@ -615,7 +615,7 @@ public final class PuzzleGUI extends JFrame {
                 back_3.setHorizontalTextPosition(JButton.CENTER);
                 back_3.setVerticalTextPosition(JButton.CENTER);
 		back_3.setFont(font);
-                back_3.setForeground(Color.black);
+                back_3.setForeground(Color.white);
 		back_3.setPreferredSize(buttonSize);
 		back_3.addActionListener(event -> showPanel(introPanel));
 		creditsPanel.add(back_3);
